@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    kotlin("plugin.jpa") version "1.6.21"
     id("com.google.protobuf") version "0.9.2"
 }
 
@@ -25,14 +26,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("com.google.protobuf:protobuf-kotlin:$protobufVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
+    runtimeOnly("org.postgresql:postgresql")
 }
 
 tasks.withType<KotlinCompile> {

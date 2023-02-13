@@ -1,12 +1,23 @@
-commerce:
-  server:
-    available:
-      time: 60
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 ---
 spring:
   config:
     activate:
       on-profile: server
+commerce:
+  server:
+    available:
+      time: 60
 ---
 spring:
   config:
