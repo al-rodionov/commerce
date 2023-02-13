@@ -1,0 +1,6 @@
+version: '1'
+services:
+  server:
+    image: commerce:0.1
+  client:
+    image: commerce:0.1
