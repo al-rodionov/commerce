@@ -1,0 +1,14 @@
+commerce:
+  server:
+    available:
+      time: 60
+---
+spring:
+  config:
+    activate:
+      on-profile: server
+---
+spring:
+  config:
+    activate:
+      on-profile: client

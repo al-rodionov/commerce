@@ -1,6 +1,18 @@
 version: '1'
 services:
   server:
+    container_name: server
     image: commerce:0.1
+    environment:
+      - "SPRING_PROFILES_ACTIVE=server"
+    networks:
+      commerce:
   client:
     image: commerce:0.1
+    environment:
+      - "SPRING_PROFILES_ACTIVE=client"
+    networks:
+      commerce:
+
+networks:
+  commerce:
