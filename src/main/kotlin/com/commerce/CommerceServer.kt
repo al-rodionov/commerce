@@ -1,7 +1,9 @@
 package com.commerce
 
+import com.commerce.service.TransactionStoreService
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -11,14 +13,16 @@ import javax.annotation.PostConstruct
 
 @Component
 @Profile("server")
-class CommerceServer {
+class CommerceServer @Autowired constructor(
+    storeService: TransactionStoreService
+){
 
     @Value("\${commerce.server.available.time}")
     lateinit var serverAvailableTime: String
 
     val server: Server = ServerBuilder
         .forPort(15002)
-        .addService(HelloWorldService())
+        .addService(HelloWorldService(storeService))
         .build()
 
     @PostConstruct
@@ -42,8 +46,13 @@ class CommerceServer {
         }, serverAvailableTime.toLong(), TimeUnit.SECONDS)
     }
 
-    private class HelloWorldService : HelloGrpcKt.HelloCoroutineImplBase() {
+    private class HelloWorldService(
+        @Autowired
+        val storeService: TransactionStoreService
+    ) : HelloGrpcKt.HelloCoroutineImplBase() {
+
         override suspend fun hello(request: HelloRequest) = helloResponse {
+            storeService.store(request.message)
             message = "Hello ${request.message}"
         }
     }

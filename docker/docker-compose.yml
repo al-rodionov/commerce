@@ -4,15 +4,33 @@ services:
     container_name: server
     image: commerce:0.1
     environment:
-      - "SPRING_PROFILES_ACTIVE=server"
+      - SPRING_PROFILES_ACTIVE=server
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
     networks:
       commerce:
   client:
     image: commerce:0.1
     environment:
-      - "SPRING_PROFILES_ACTIVE=client"
+      - SPRING_PROFILES_ACTIVE=client
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
     networks:
       commerce:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      commerce:
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
 
 networks:
   commerce:
