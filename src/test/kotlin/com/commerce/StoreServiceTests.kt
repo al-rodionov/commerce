@@ -1,6 +1,7 @@
 package com.commerce
 
 import com.commerce.service.TransactionStoreService
+import com.commerce.util.generateTransactionContainer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,9 +16,9 @@ class StoreServiceTests @Autowired constructor(
 
     @Test
     fun helloWorld() {
-        storeService.store("service1")
-        storeService.store("service2")
-        storeService.store("service3")
+        storeService.store(generateTransactionContainer())
+        storeService.store(generateTransactionContainer())
+        storeService.store(generateTransactionContainer())
 
         assert(storeService.findAll().size >= 3)
     }

@@ -9,6 +9,7 @@ services:
     networks:
       commerce:
   client:
+    container_name: client
     image: commerce:0.1
     environment:
       - SPRING_PROFILES_ACTIVE=client
@@ -16,6 +17,7 @@ services:
     networks:
       commerce:
   db:
+    container_name: db
     image: postgres:14.1-alpine
     restart: always
     environment:
