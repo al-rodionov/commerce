@@ -1,13 +1,17 @@
 package com.commerce
 
+import com.commerce.exception.ValidationException
 import com.commerce.grpc.*
 import com.commerce.mapper.toContainer
+import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PointsCalcService
 import com.commerce.service.PriceCalcService
 import com.commerce.service.TransactionStoreService
 import com.commerce.service.ValidatorService
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import io.grpc.Status.INVALID_ARGUMENT
+import io.grpc.StatusException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
@@ -62,23 +66,25 @@ class CommerceServer @Autowired constructor(
         val pointsCalcService: PointsCalcService
     ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
-        override suspend fun transaction(request: TransactionRequest) = transactionResponse {
-            val container = toContainer(request)
+        override suspend fun transaction(request: TransactionRequest) : TransactionResponse {
+            try {
+                val container = toContainer(request)
+                validatorService.validate(container)
+                storeService.store(container)
+                return createResponse(container)
+            } catch (e: ValidationException) {
+                throw StatusException(INVALID_ARGUMENT.withDescription(e.message))
+            }
+        }
 
-            validatorService.validate(container)
+        private fun createResponse(container: TransactionContainer) : TransactionResponse {
+            val finalPrice = priceCalcService.calculate(container)
+            val points = pointsCalcService.calculate(container)
 
-            storeService.store(container)
-
-//            val finalPrice = priceCalc.calculate(container)
-//            val points = pointsCalc.calculate(container)
-
-//            mapFromGrpc-contaainer
-//            validate - need list1
-//            store
-//            calculate response - need list1
-
-            finalPrice = priceCalcService.calculate(container)
-            points = pointsCalcService.calculate(container)
+            return TransactionResponse.newBuilder()
+                .setFinalPrice(finalPrice)
+                .setPoints(points)
+                .build()
         }
 
         override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {

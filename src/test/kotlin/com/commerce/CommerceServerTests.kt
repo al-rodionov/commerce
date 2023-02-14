@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
 @ActiveProfiles("server")
-class CommerceInitApplicationTests @Autowired constructor(val com: CommerceServer) {
+class CommerceServerTests @Autowired constructor(val com: CommerceServer) {
 
     @Test
     fun getResponseGrpc() {
