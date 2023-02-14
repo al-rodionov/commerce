@@ -1,4 +1,4 @@
-package com.commerce.model.mapper
+package com.commerce.mapper
 
 import com.commerce.grpc.AdditionalItem
 import com.commerce.grpc.BankItem
