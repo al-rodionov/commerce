@@ -15,7 +15,7 @@ class StoreServiceTests @Autowired constructor(
 ){
 
     @Test
-    fun helloWorld() {
+    fun store() {
         storeService.store(generateTransactionContainer())
         storeService.store(generateTransactionContainer())
         storeService.store(generateTransactionContainer())
