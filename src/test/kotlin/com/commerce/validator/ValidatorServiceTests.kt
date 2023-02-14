@@ -37,6 +37,11 @@ class ValidatorServiceTests @Autowired constructor(
             generateTransactionContainer(0.5),
             "Price modifier not in the range"
         )
+
+        assertThrow(
+            generateTransactionContainer(2.5),
+            "Price modifier not in the range"
+        )
     }
 
     @Test
@@ -64,8 +69,6 @@ class ValidatorServiceTests @Autowired constructor(
         val ex = assertThrows<ValidationException> {
             validatorService.validate(container)
         }
-        print("718" + errorMsg)
-        println("7181" + ex.message)
         assert(errorMsg.equals(ex.message))
     }
 }

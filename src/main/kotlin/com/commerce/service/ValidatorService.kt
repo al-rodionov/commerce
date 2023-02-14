@@ -1,8 +1,8 @@
 package com.commerce.service
 
+import com.commerce.exception.ValidationException
 import com.commerce.model.container.TransactionContainer
 import com.commerce.validator.validateAdditional
-import com.commerce.validator.validatePaymentMethod
 import com.commerce.validator.validatePriceModifier
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
@@ -19,8 +19,8 @@ class ValidatorService @Autowired constructor(
     fun validate(container: TransactionContainer) {
         val paymentMethod = container.paymentMethod
         val config = paymentsConfig.find { it.name.equals(paymentMethod) }
+            ?: throw ValidationException("Invalid payment method")
 
-        validatePaymentMethod(config)
         validatePriceModifier(config, container.priceModifier)
         validateAdditional(paymentMethod, container.additionalItem)
     }
