@@ -1,11 +1,7 @@
 package com.commerce.model.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import java.time.LocalDateTime
+import javax.persistence.*
 
 @Entity
 @Table(name = "TRANSACTION")
@@ -15,7 +11,18 @@ class Transaction (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int?=null,
 
-    @Column(nullable = false)
-    val name: String,
+    @Column(nullable = false, name = "CUSTOMER_ID")
+    val customerId: Long,
 
+    @Column(nullable = false, name = "PRICE")
+    val price: Double,
+
+    @Column(nullable = false, name = "PRICE_MODIFIER")
+    val priceModifier: Double,
+
+    @Column(nullable = false, name = "DATE_TIME")
+    val dateTime: LocalDateTime,
+
+    @Column(name = "ADDITIONAL_ITEM")
+    val additionalItem: String
 )

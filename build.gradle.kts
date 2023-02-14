@@ -35,6 +35,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0")
 }
 
 tasks.withType<KotlinCompile> {

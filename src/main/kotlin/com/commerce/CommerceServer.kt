@@ -1,6 +1,7 @@
 package com.commerce
 
 import com.commerce.grpc.*
+import com.commerce.model.mapper.toContainer
 import com.commerce.service.TransactionStoreService
 import io.grpc.Server
 import io.grpc.ServerBuilder
@@ -53,7 +54,14 @@ class CommerceServer @Autowired constructor(
     ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
         override suspend fun transaction(request: TransactionRequest) = transactionResponse {
-            storeService.store(request.customerId.toString())
+            var container = toContainer(request)
+
+            storeService.store(container)
+
+//            mapFromGrpc-contaainer
+//            validate - need list1
+//            store
+//            calculate response - need list1
 
             finalPrice = 1000.0
             points = 20.0
