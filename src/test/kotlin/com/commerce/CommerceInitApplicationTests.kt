@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles
 class CommerceInitApplicationTests @Autowired constructor(val com: CommerceServer) {
 
     @Test
-    fun helloWorld() {
+    fun getResponseGrpc() {
         val channel = ManagedChannelBuilder.forAddress("localhost", 15002)
             .usePlaintext()
             .build()
@@ -29,6 +29,7 @@ class CommerceInitApplicationTests @Autowired constructor(val com: CommerceServe
             .setCustomerId(1)
             .setPrice(100.0)
             .setPriceModifier(0.95)
+            .setPaymentMethod("CASH")
             .setDateTime("2022-09-01T00:00:00Z")
             .build()
     }

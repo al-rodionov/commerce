@@ -3,6 +3,7 @@ package com.commerce
 import com.commerce.grpc.*
 import com.commerce.model.mapper.toContainer
 import com.commerce.service.TransactionStoreService
+import com.commerce.service.ValidatorService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct
 @Component
 @Profile("server")
 class CommerceServer @Autowired constructor(
+    validatorService: ValidatorService,
     storeService: TransactionStoreService
 ){
 
@@ -24,7 +26,7 @@ class CommerceServer @Autowired constructor(
 
     val server: Server = ServerBuilder
         .forPort(15002)
-        .addService(TransactionGrpcService(storeService))
+        .addService(TransactionGrpcService(validatorService, storeService))
         .build()
 
     @PostConstruct
@@ -48,13 +50,15 @@ class CommerceServer @Autowired constructor(
         }, serverAvailableTime.toLong(), TimeUnit.SECONDS)
     }
 
-    private class TransactionGrpcService(
-        @Autowired
+    private class TransactionGrpcService @Autowired constructor(
+        val validatorService: ValidatorService,
         val storeService: TransactionStoreService
     ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
         override suspend fun transaction(request: TransactionRequest) = transactionResponse {
-            var container = toContainer(request)
+            val container = toContainer(request)
+
+            validatorService.validate(container)
 
             storeService.store(container)
 

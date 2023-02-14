@@ -20,6 +20,9 @@ class Transaction (
     @Column(nullable = false, name = "PRICE_MODIFIER")
     val priceModifier: Double,
 
+    @Column(nullable = false, name = "PAYMENT_METHOD")
+    val paymentMethod: String,
+
     @Column(nullable = false, name = "DATE_TIME")
     val dateTime: LocalDateTime,
 

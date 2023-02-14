@@ -31,13 +31,23 @@ private fun generateBankItem(): BankItem =
         .setChequeNumber("7654321")
         .build()
 
-fun generateTransactionContainer(): TransactionContainer = TransactionContainer(
-    customerId = 1L,
-    price = 1000.00,
-    priceModifier = 0.95,
-    dateTime = mapDateTime(DATE_TIME),
-    additionalItem = TransactionContainer.AdditionalItem(
-        last4 = 2345,null,null
+fun generateTransactionContainer(paymentMethod: String,
+                                 priceModifier: Double,
+                                 additionalItem: TransactionContainer.AdditionalItem?): TransactionContainer =
+    TransactionContainer(
+        customerId = 1L,
+        price = 1000.00,
+        priceModifier = priceModifier,
+        paymentMethod = paymentMethod,
+        dateTime = mapDateTime(DATE_TIME),
+        additionalItem = additionalItem
     )
 
-)
+fun generateTransactionContainer(paymentMethod: String): TransactionContainer =
+    generateTransactionContainer(paymentMethod, 0.95, null)
+
+fun generateTransactionContainer(priceModifier: Double): TransactionContainer =
+    generateTransactionContainer("CASH", priceModifier, null)
+
+fun generateTransactionContainer(): TransactionContainer =
+    generateTransactionContainer("CASH")

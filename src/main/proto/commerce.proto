@@ -13,8 +13,9 @@ message TransactionRequest {
   int64 customerId = 1;
   double price = 2;
   double priceModifier = 3;
-  string dateTime = 4;
-  AdditionalItem additionalItem = 5;
+  string paymentMethod = 4;
+  string dateTime = 5;
+  AdditionalItem additionalItem = 6;
 }
 
 message AdditionalItem {

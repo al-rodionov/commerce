@@ -38,7 +38,12 @@ class TransactionMapperTests {
 
     @Test
     fun containerToEntity() {
-        val entity: Transaction = toEntity(generateTransactionContainer())
+        val container = generateTransactionContainer(
+            "CASH",
+            0.95,
+            TransactionContainer.AdditionalItem(2345, null, null)
+        )
+        val entity: Transaction = toEntity(container)
 
         assert(entity.customerId.equals(1L))
         assert(entity.price.equals(1000.00))

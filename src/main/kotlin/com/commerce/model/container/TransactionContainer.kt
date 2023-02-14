@@ -7,6 +7,7 @@ class TransactionContainer(
     val customerId: Long,
     val price: Double,
     val priceModifier: Double,
+    val paymentMethod: String,
     val dateTime: LocalDateTime,
     val additionalItem: AdditionalItem?
 ) {

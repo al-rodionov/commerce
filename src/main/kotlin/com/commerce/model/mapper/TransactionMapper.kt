@@ -12,6 +12,7 @@ fun toContainer(request: TransactionRequest) = TransactionContainer(
     customerId = request.customerId,
     price = request.price,
     priceModifier = request.priceModifier,
+    paymentMethod = request.paymentMethod,
     dateTime = mapDateTime(request.dateTime),
     additionalItem = mapAdditionalItem(request.additionalItem)
 )
@@ -21,6 +22,7 @@ fun toEntity(container: TransactionContainer) = Transaction(
     customerId = container.customerId,
     price = container.price,
     priceModifier = container.priceModifier,
+    paymentMethod = container.paymentMethod,
     dateTime = container.dateTime,
     additionalItem = container.additionalItem.toString()
 )
