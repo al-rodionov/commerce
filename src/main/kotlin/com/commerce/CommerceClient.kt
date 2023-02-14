@@ -19,8 +19,9 @@ class CommerceClient {
             try {
                 Thread.sleep(5000)
                 sendMessage()
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 println("Still not ready...")
+                println(e.message)
             }
         }
     }
@@ -41,6 +42,7 @@ class CommerceClient {
             .setCustomerId(1)
             .setPrice(100.0)
             .setPriceModifier(0.95)
+            .setPaymentMethod("CASH")
             .setDateTime("2022-09-01T00:00:00Z")
             .build()
     }

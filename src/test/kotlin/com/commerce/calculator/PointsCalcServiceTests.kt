@@ -1,8 +1,8 @@
 package com.commerce.calculator
 
+import com.commerce.mapper.mapDateTime
 import com.commerce.model.container.TransactionContainer
-import com.commerce.model.mapper.mapDateTime
-import com.commerce.service.calculator.PriceCalculator
+import com.commerce.service.PointsCalcService
 import com.commerce.util.DATE_TIME
 import com.commerce.util.generateTransactionContainer
 import org.junit.jupiter.api.Test
@@ -12,28 +12,28 @@ import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
 @ActiveProfiles("server")
-class PriceCalculatorTests @Autowired constructor(
-    val calculator: PriceCalculator
+class PointsCalcServiceTests @Autowired constructor(
+    val calculator: PointsCalcService
 ){
 
     @Test
-    fun calculatePrice() {
+    fun calculatePoints() {
         val price = calculator.calculate(generateTransactionContainer())
-        assert(price.compareTo(950.00) == 0)
+        assert(price.compareTo(50.01) == 0)
     }
 
     @Test
-    fun calculatePriceDigits() {
+    fun calculatePointsDigits() {
         val price = calculator.calculate(
             TransactionContainer(
                 customerId = 1L,
-                price = 333.18,
-                priceModifier = 0.33,
+                price = 333.33,
+                priceModifier = 0.9,
                 paymentMethod = "CASH",
                 dateTime = mapDateTime(DATE_TIME),
                 additionalItem = null
             )
         )
-        assert(price.compareTo(109.95) == 0)
+        assert(price.compareTo(16.67) == 0)
     }
 }

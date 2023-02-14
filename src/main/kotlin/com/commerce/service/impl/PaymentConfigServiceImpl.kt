@@ -1,24 +1,25 @@
-package com.commerce.service
+package com.commerce.service.impl
 
 import com.commerce.exception.ValidationException
 import com.commerce.model.cache.PaymentConfig
 import com.commerce.model.entity.PaymentMethod
 import com.commerce.repo.PaymentMethodRepository
+import com.commerce.service.PaymentConfigService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 @Service
 @Profile("server")
-class PaymentsConfigService @Autowired constructor(
+class PaymentConfigServiceImpl @Autowired constructor(
     val repository: PaymentMethodRepository
-) {
+) : PaymentConfigService {
 
     fun findAll(): List<PaymentMethod> {
         return repository.findAll()
     }
 
-    fun getPaymentsConfig(paymentMethod: String): PaymentConfig {
+    override fun getPaymentConfig(paymentMethod: String): PaymentConfig {
         return getPaymentsConfigs().find { it.name.equals(paymentMethod) }
             ?: throw ValidationException("Invalid payment method")
     }
@@ -32,5 +33,4 @@ class PaymentsConfigService @Autowired constructor(
             PaymentConfig("CHEQUE", 0.9, 1.0, 0.0),
         )
     }
-
 }

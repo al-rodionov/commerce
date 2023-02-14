@@ -1,7 +1,9 @@
 package com.commerce
 
 import com.commerce.grpc.*
-import com.commerce.model.mapper.toContainer
+import com.commerce.mapper.toContainer
+import com.commerce.service.PointsCalcService
+import com.commerce.service.PriceCalcService
 import com.commerce.service.TransactionStoreService
 import com.commerce.service.ValidatorService
 import io.grpc.Server
@@ -18,7 +20,9 @@ import javax.annotation.PostConstruct
 @Profile("server")
 class CommerceServer @Autowired constructor(
     validatorService: ValidatorService,
-    storeService: TransactionStoreService
+    storeService: TransactionStoreService,
+    priceCalcService: PriceCalcService,
+    pointsCalcService: PointsCalcService,
 ){
 
     @Value("\${commerce.server.available.time}")
@@ -26,7 +30,8 @@ class CommerceServer @Autowired constructor(
 
     val server: Server = ServerBuilder
         .forPort(15002)
-        .addService(TransactionGrpcService(validatorService, storeService))
+        .addService(TransactionGrpcService(validatorService,
+            storeService, priceCalcService, pointsCalcService))
         .build()
 
     @PostConstruct
@@ -52,7 +57,9 @@ class CommerceServer @Autowired constructor(
 
     private class TransactionGrpcService @Autowired constructor(
         val validatorService: ValidatorService,
-        val storeService: TransactionStoreService
+        val storeService: TransactionStoreService,
+        val priceCalcService: PriceCalcService,
+        val pointsCalcService: PointsCalcService
     ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
         override suspend fun transaction(request: TransactionRequest) = transactionResponse {
@@ -70,8 +77,8 @@ class CommerceServer @Autowired constructor(
 //            store
 //            calculate response - need list1
 
-            finalPrice = 1000.0
-            points = 20.0
+            finalPrice = priceCalcService.calculate(container)
+            points = pointsCalcService.calculate(container)
         }
 
         override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {

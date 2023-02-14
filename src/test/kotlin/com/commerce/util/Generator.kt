@@ -4,7 +4,7 @@ import com.commerce.grpc.AdditionalItem
 import com.commerce.grpc.BankItem
 import com.commerce.grpc.TransactionRequest
 import com.commerce.model.container.TransactionContainer
-import com.commerce.model.mapper.mapDateTime
+import com.commerce.mapper.mapDateTime
 
 val DATE_TIME: String = "2022-09-01T00:00:00Z";
 

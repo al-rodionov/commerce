@@ -20,8 +20,8 @@ class CommerceInitApplicationTests @Autowired constructor(val com: CommerceServe
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
         val response = stub.transaction(generateTransaction())
-        assert(response.finalPrice.equals(1000.0))
-        assert(response.points.equals(20.0))
+        assert(response.finalPrice.compareTo(95.0) == 0)
+        assert(response.points.compareTo(5.01) == 0)
     }
 
     fun generateTransaction(): TransactionRequest {
