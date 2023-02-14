@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package com.commerce.grpc;
+
+option java_multiple_files = true;
+
+service Commerce {
+  rpc Transaction (TransactionRequest) returns (TransactionResponse) {}
+  rpc TransactionReport (TransactionReportRequest) returns (TransactionReportResponse) {}
+}
+
+message TransactionRequest {
+  int64 customerId = 1;
+  double price = 2;
+  double priceModifier = 3;
+  string dateTime = 4;
+  AdditionalItem additionalItem = 5;
+}
+
+message AdditionalItem {
+  optional int32 last4 = 1;
+  optional string courier = 2;
+  optional BankItem BankItem = 3;
+}
+
+message BankItem {
+  string bankName = 1;
+  optional string accountNumber = 2;
+  optional string chequeNumber = 3;
+}
+
+message TransactionResponse {
+  double finalPrice = 1;
+  double points = 2;
+}
+
+message TransactionReportRequest {
+  string startDateTime = 1;
+  string endDateTime = 2;
+}
+
+message TransactionReportResponse {
+  repeated TransactionReportItem sales = 1;
+}
+
+message TransactionReportItem {
+  string dateTime = 1;
+  double sales = 2;
+  double points = 3;
+}
