@@ -1,5 +1,6 @@
 package com.commerce.service
 
+import com.commerce.exception.ValidationException
 import com.commerce.model.cache.PaymentConfig
 import com.commerce.model.entity.PaymentMethod
 import com.commerce.repo.PaymentMethodRepository
@@ -17,7 +18,12 @@ class PaymentsConfigService @Autowired constructor(
         return repository.findAll()
     }
 
-    fun getPaymentsConfig(): List<PaymentConfig> {
+    fun getPaymentsConfig(paymentMethod: String): PaymentConfig {
+        return getPaymentsConfigs().find { it.name.equals(paymentMethod) }
+            ?: throw ValidationException("Invalid payment method")
+    }
+
+    private fun getPaymentsConfigs(): List<PaymentConfig> {
         return listOf<PaymentConfig>(
             PaymentConfig("CASH", 0.9, 1.0, 0.05),
             PaymentConfig("CASH_ON_DELIVERY", 1.0, 1.02, 0.05),

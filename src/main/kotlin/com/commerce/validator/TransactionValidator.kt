@@ -5,17 +5,12 @@ import com.commerce.model.cache.PaymentConfig
 import com.commerce.model.container.TransactionContainer
 
 
-fun validatePaymentMethod(config: PaymentConfig?) {
-    println("valid")
-    if (config == null) {
-        throw ValidationException("Invalid payment method")
-    }
-}
-
-fun validatePriceModifier(config: PaymentConfig?,
+fun validatePriceModifier(config: PaymentConfig,
                           priceModifier: Double) {
-    if (config?.priceModifierMin?.compareTo(priceModifier)!! > 0 ||
-        config?.priceModifierMax?.compareTo(priceModifier)!! < 0) {
+    val configMin = config.priceModifierMin
+    val configMax = config.priceModifierMax
+    if (priceModifier.compareTo(configMin) < 0 ||
+        priceModifier.compareTo(configMax) > 0) {
         throw ValidationException("Price modifier not in the range")
     }
 }

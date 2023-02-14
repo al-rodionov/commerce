@@ -62,6 +62,9 @@ class CommerceServer @Autowired constructor(
 
             storeService.store(container)
 
+//            val finalPrice = priceCalc.calculate(container)
+//            val points = pointsCalc.calculate(container)
+
 //            mapFromGrpc-contaainer
 //            validate - need list1
 //            store

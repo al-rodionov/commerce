@@ -43,6 +43,7 @@ fun generateTransactionContainer(paymentMethod: String,
         additionalItem = additionalItem
     )
 
+//todo builder
 fun generateTransactionContainer(paymentMethod: String): TransactionContainer =
     generateTransactionContainer(paymentMethod, 0.95, null)
 
