@@ -1,5 +1,6 @@
 package com.commerce
 
+import com.commerce.grpc.*
 import com.commerce.service.TransactionStoreService
 import io.grpc.Server
 import io.grpc.ServerBuilder
@@ -22,7 +23,7 @@ class CommerceServer @Autowired constructor(
 
     val server: Server = ServerBuilder
         .forPort(15002)
-        .addService(HelloWorldService(storeService))
+        .addService(TransactionGrpcService(storeService))
         .build()
 
     @PostConstruct
@@ -46,14 +47,20 @@ class CommerceServer @Autowired constructor(
         }, serverAvailableTime.toLong(), TimeUnit.SECONDS)
     }
 
-    private class HelloWorldService(
+    private class TransactionGrpcService(
         @Autowired
         val storeService: TransactionStoreService
-    ) : HelloGrpcKt.HelloCoroutineImplBase() {
+    ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
-        override suspend fun hello(request: HelloRequest) = helloResponse {
-            storeService.store(request.message)
-            message = "Hello ${request.message}"
+        override suspend fun transaction(request: TransactionRequest) = transactionResponse {
+            storeService.store(request.customerId.toString())
+
+            finalPrice = 1000.0
+            points = 20.0
+        }
+
+        override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {
+            return super.transactionReport(request)
         }
     }
 }

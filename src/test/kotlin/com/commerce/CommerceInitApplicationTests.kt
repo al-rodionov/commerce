@@ -1,5 +1,7 @@
 package com.commerce
 
+import com.commerce.grpc.CommerceGrpc
+import com.commerce.grpc.TransactionRequest
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,8 +18,18 @@ class CommerceInitApplicationTests @Autowired constructor(val com: CommerceServe
         val channel = ManagedChannelBuilder.forAddress("localhost", 15002)
             .usePlaintext()
             .build()
-        val stub = HelloGrpc.newBlockingStub(channel)
-        val response = stub.hello(HelloRequest.newBuilder().setMessage("world").build())
-        assert(response.message.equals("Hello world"))
+        val stub = CommerceGrpc.newBlockingStub(channel)
+        val response = stub.transaction(generateTransaction())
+        assert(response.finalPrice.equals(1000.0))
+        assert(response.points.equals(20.0))
+    }
+
+    fun generateTransaction(): TransactionRequest {
+        return TransactionRequest.newBuilder()
+            .setCustomerId(1)
+            .setPrice(100.0)
+            .setPriceModifier(0.95)
+            .setDateTime("2022-09-01T00:00:00Z")
+            .build()
     }
 }

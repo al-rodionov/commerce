@@ -1,5 +1,7 @@
 package com.commerce
 
+import com.commerce.grpc.CommerceGrpc
+import com.commerce.grpc.TransactionRequest
 import io.grpc.ManagedChannelBuilder
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -27,8 +29,19 @@ class CommerceClient {
         val channel = ManagedChannelBuilder.forAddress("server", 15002)
             .usePlaintext()
             .build()
-        val stub = HelloGrpc.newBlockingStub(channel)
-        val response = stub.hello(HelloRequest.newBuilder().setMessage("world").build())
-        println(response.message)
+        val stub = CommerceGrpc.newBlockingStub(channel)
+        val response = stub.transaction(generateTransaction())
+        println(response.finalPrice)
+        println(response.points)
+    }
+
+//    todo utils? also in tests
+    fun generateTransaction(): TransactionRequest {
+        return TransactionRequest.newBuilder()
+            .setCustomerId(1)
+            .setPrice(100.0)
+            .setPriceModifier(0.95)
+            .setDateTime("2022-09-01T00:00:00Z")
+            .build()
     }
 }
