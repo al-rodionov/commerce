@@ -33,6 +33,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.h2database:h2:2.1.214")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0")

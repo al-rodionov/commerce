@@ -77,14 +77,9 @@ class CommerceServer @Autowired constructor(
             }
         }
 
-        private fun createResponse(container: TransactionContainer) : TransactionResponse {
-            val finalPrice = priceCalcService.calculate(container)
-            val points = pointsCalcService.calculate(container)
-
-            return TransactionResponse.newBuilder()
-                .setFinalPrice(finalPrice)
-                .setPoints(points)
-                .build()
+        private fun createResponse(container: TransactionContainer) = transactionResponse {
+            finalPrice = priceCalcService.calculate(container)
+            points = pointsCalcService.calculate(container)
         }
 
         override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {

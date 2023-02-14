@@ -6,6 +6,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=server
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
       commerce:
   client:
@@ -14,11 +16,14 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=client
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
       commerce:
   db:
     container_name: db
-    image: postgres:14.1-alpine
+    build:
+      dockerfile: db/Dockerfile
     restart: always
     environment:
       - POSTGRES_USER=postgres
