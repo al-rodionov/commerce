@@ -11,15 +11,12 @@ import org.springframework.stereotype.Service
 @Service
 @Profile("server")
 class ValidatorService @Autowired constructor(
-    configService: PaymentsConfigService
+    val configService: PaymentsConfigService
 ) {
-
-    val paymentsConfig = configService.getPaymentsConfig()
 
     fun validate(container: TransactionContainer) {
         val paymentMethod = container.paymentMethod
-        val config = paymentsConfig.find { it.name.equals(paymentMethod) }
-            ?: throw ValidationException("Invalid payment method")
+        val config = configService.getPaymentsConfig(paymentMethod)
 
         validatePriceModifier(config, container.priceModifier)
         validateAdditional(paymentMethod, container.additionalItem)
