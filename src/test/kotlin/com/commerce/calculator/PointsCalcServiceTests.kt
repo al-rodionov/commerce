@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 
+
 @SpringBootTest
-@ActiveProfiles("server")
+@ActiveProfiles("test")
 class PointsCalcServiceTests @Autowired constructor(
     val calculator: PointsCalcService
-){
+) {
 
     @Test
     fun calculatePoints() {

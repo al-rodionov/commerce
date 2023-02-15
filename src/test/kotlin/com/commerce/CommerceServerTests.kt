@@ -10,8 +10,8 @@ import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest
-@ActiveProfiles("server")
-class CommerceServerTests @Autowired constructor(val com: CommerceServer) {
+@ActiveProfiles("test", "server")
+class CommerceServerTests {
 
     @Test
     fun getResponseGrpc() {
