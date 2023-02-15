@@ -19,10 +19,7 @@ class TransactionStoreServiceImpl @Autowired constructor(
     val paymentRepository: PaymentRepository
 ) : TransactionStoreService {
 
-    val logger: Logger = LoggerFactory.getLogger(TransactionStoreServiceImpl::class.java)
-
     override fun store(container: TransactionContainer) {
-        logger.debug("save 718 + logger")
         transactionRepository.save(toTranEntity(container))
         paymentRepository.save(toPaymentEntity(container))
     }

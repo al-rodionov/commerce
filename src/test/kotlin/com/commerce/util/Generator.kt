@@ -13,6 +13,7 @@ fun generateTransaction(): TransactionRequest =
         .setCustomerId(1)
         .setPrice(100.0)
         .setPriceModifier(0.95)
+        .setPaymentMethod("CASH")
         .setDateTime(DATE_TIME)
         .setAdditionalItem(generateAdditionalItem())
         .build()
