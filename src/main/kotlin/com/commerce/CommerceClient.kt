@@ -2,14 +2,22 @@ package com.commerce
 
 import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionRequest
+import com.commerce.util.print
 import io.grpc.ManagedChannelBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import javax.annotation.PostConstruct
+import kotlin.random.Random
 
 @Component
 @Profile("client")
 class CommerceClient {
+
+    private val logger: Logger = LoggerFactory.getLogger(CommerceClient::class.java)
 
     @PostConstruct
     fun sendRequest() {
@@ -20,8 +28,7 @@ class CommerceClient {
                 Thread.sleep(5000)
                 sendMessage()
             } catch (e: Exception) {
-                println("Still not ready...")
-                println(e.message)
+                logger.error("Exception while sending request: {}", e.message)
             }
         }
     }
@@ -31,19 +38,35 @@ class CommerceClient {
             .usePlaintext()
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
-        val response = stub.transaction(generateTransaction())
-        println(response.finalPrice)
-        println(response.points)
+        val request = generateRequest()
+        logger.info("Send request {}", request.print())
+        val response = stub.transaction(request)
+        logger.info("Receive response {}", response.print())
     }
 
-//    todo utils? also in tests
-    fun generateTransaction(): TransactionRequest {
+    fun generateRequest(): TransactionRequest {
         return TransactionRequest.newBuilder()
             .setCustomerId(1)
-            .setPrice(100.0)
-            .setPriceModifier(0.95)
+            .setPrice(generatePrice())
+            .setPriceModifier(generatePriceModifier())
             .setPaymentMethod("CASH")
             .setDateTime("2022-09-01T00:00:00Z")
             .build()
+    }
+
+    private fun generatePrice(): Double {
+        return generateDouble(100.0, 3000.0)
+    }
+
+    private fun generatePriceModifier(): Double {
+        return generateDouble(0.85, 1.05)
+    }
+
+    private fun generateDouble(from: Double,
+                               to: Double): Double {
+        val random = Random.nextDouble(from, to)
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        return df.format(random).toDouble()
     }
 }

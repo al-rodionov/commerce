@@ -18,7 +18,7 @@ spring:
 commerce:
   server:
     available:
-      time: 60
+      time: 600
 ---
 spring:
   config:

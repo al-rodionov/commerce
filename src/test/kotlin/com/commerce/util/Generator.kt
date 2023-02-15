@@ -13,6 +13,7 @@ fun generateTransaction(): TransactionRequest =
         .setCustomerId(1)
         .setPrice(100.0)
         .setPriceModifier(0.95)
+        .setPaymentMethod("CASH")
         .setDateTime(DATE_TIME)
         .setAdditionalItem(generateAdditionalItem())
         .build()
@@ -40,7 +41,8 @@ fun generateTransactionContainer(paymentMethod: String,
         priceModifier = priceModifier,
         paymentMethod = paymentMethod,
         dateTime = mapDateTime(DATE_TIME),
-        additionalItem = additionalItem
+        additionalItem = additionalItem,
+        0.0, 0.0
     )
 
 //todo builder

@@ -2,9 +2,6 @@ package com.commerce.mapper
 
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
-import com.commerce.mapper.mapDateTime
-import com.commerce.mapper.toContainer
-import com.commerce.mapper.toEntity
 import com.commerce.util.DATE_TIME
 import com.commerce.util.generateTransaction
 import com.commerce.util.generateTransactionContainer
@@ -43,7 +40,7 @@ class TransactionMapperTests {
             0.95,
             TransactionContainer.AdditionalItem(2345, null, null)
         )
-        val entity: Transaction = toEntity(container)
+        val entity: Transaction = toTranEntity(container)
 
         assert(entity.customerId.equals(1L))
         assert(entity.price.equals(1000.00))

@@ -23,6 +23,7 @@ services:
   db:
     container_name: db
     build:
+      context: .
       dockerfile: db/Dockerfile
     restart: always
     environment:

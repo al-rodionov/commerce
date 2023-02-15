@@ -2,7 +2,8 @@ package com.commerce.service
 
 import com.commerce.model.cache.PaymentConfig
 import com.commerce.model.container.TransactionContainer
-import com.commerce.model.entity.Transaction
+import com.commerce.model.entity.Payment
+import java.time.LocalDateTime
 
 interface ValidatorService {
     fun validate(container: TransactionContainer)
@@ -15,7 +16,8 @@ interface PaymentConfigService {
 interface TransactionStoreService {
     fun store(container: TransactionContainer)
 
-    fun findAll(): List<Transaction>
+    fun findAllBetweenDates(beginDate: LocalDateTime,
+                            endDate: LocalDateTime): List<Payment>
 }
 
 interface Calculator {

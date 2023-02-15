@@ -9,7 +9,10 @@ class TransactionContainer(
     val priceModifier: Double,
     val paymentMethod: String,
     val dateTime: LocalDateTime,
-    val additionalItem: AdditionalItem?
+    val additionalItem: AdditionalItem?,
+
+    var sales: Double,
+    var points: Double,
 ) {
     class AdditionalItem(
         val last4: Int?,
