@@ -40,7 +40,8 @@ fun generateTransactionContainer(paymentMethod: String,
         priceModifier = priceModifier,
         paymentMethod = paymentMethod,
         dateTime = mapDateTime(DATE_TIME),
-        additionalItem = additionalItem
+        additionalItem = additionalItem,
+        0.0, 0.0
     )
 
 //todo builder

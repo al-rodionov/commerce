@@ -32,7 +32,8 @@ class PointsCalcServiceTests @Autowired constructor(
                 priceModifier = 0.9,
                 paymentMethod = "CASH",
                 dateTime = mapDateTime(DATE_TIME),
-                additionalItem = null
+                additionalItem = null,
+                0.0, 0.0
             )
         )
         assert(price.compareTo(16.67) == 0)

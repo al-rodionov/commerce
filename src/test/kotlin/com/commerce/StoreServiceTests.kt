@@ -1,5 +1,6 @@
 package com.commerce
 
+import com.commerce.repo.TransactionRepository
 import com.commerce.service.TransactionStoreService
 import com.commerce.util.generateTransactionContainer
 import org.junit.jupiter.api.Test
@@ -9,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class StoreServiceTests @Autowired constructor(
-    val storeService: TransactionStoreService
+    val storeService: TransactionStoreService,
+    val repository: TransactionRepository
 ){
 
     @Test
@@ -18,6 +20,6 @@ class StoreServiceTests @Autowired constructor(
         storeService.store(generateTransactionContainer())
         storeService.store(generateTransactionContainer())
 
-        assert(storeService.findAll().size >= 3)
+        assert(repository.findAll().size == 3)
     }
 }

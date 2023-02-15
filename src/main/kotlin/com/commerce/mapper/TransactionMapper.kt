@@ -14,10 +14,11 @@ fun toContainer(request: TransactionRequest) = TransactionContainer(
     priceModifier = request.priceModifier,
     paymentMethod = request.paymentMethod,
     dateTime = mapDateTime(request.dateTime),
-    additionalItem = mapAdditionalItem(request.additionalItem)
+    additionalItem = mapAdditionalItem(request.additionalItem),
+    0.0, 0.0
 )
 
-fun toEntity(container: TransactionContainer) = Transaction(
+fun toTranEntity(container: TransactionContainer) = Transaction(
     id = null,
     customerId = container.customerId,
     price = container.price,

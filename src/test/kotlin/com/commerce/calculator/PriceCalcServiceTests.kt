@@ -29,7 +29,8 @@ class PriceCalcServiceTests @Autowired constructor(
                 priceModifier = 0.33,
                 paymentMethod = "CASH",
                 dateTime = mapDateTime(DATE_TIME),
-                additionalItem = null
+                additionalItem = null,
+                0.0, 0.0
             )
         )
         assert(price.compareTo(109.95) == 0)
