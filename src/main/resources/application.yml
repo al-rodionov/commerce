@@ -12,6 +12,9 @@ spring:
   config:
     activate:
       on-profile: server
+  jpa:
+    hibernate:
+      ddl-auto: none
 commerce:
   server:
     available:
@@ -21,3 +24,14 @@ spring:
   config:
     activate:
       on-profile: client
+  jpa:
+    hibernate:
+      ddl-auto: none
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

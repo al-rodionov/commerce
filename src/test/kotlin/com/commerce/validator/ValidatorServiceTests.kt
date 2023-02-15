@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest
-@ActiveProfiles("server")
+@ActiveProfiles("test")
 class ValidatorServiceTests @Autowired constructor(
     val validatorService: ValidatorService
 ){

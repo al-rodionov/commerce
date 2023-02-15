@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 @Service
-@Profile("server")
+@Profile("!test")
 class PaymentConfigServiceImpl @Autowired constructor(
     repository: PaymentMethodRepository
 ) : PaymentConfigService {
@@ -21,17 +21,7 @@ class PaymentConfigServiceImpl @Autowired constructor(
         .collect(Collectors.toList())
 
     override fun getPaymentConfig(paymentMethod: String): PaymentConfig {
-        return getPaymentsConfigs().find { it.name.equals(paymentMethod) }
+        return configs.find { it.name.equals(paymentMethod) }
             ?: throw ValidationException("Invalid payment method")
-    }
-
-    private fun getPaymentsConfigs(): List<PaymentConfig> {
-        return listOf<PaymentConfig>(
-            PaymentConfig("CASH", 0.9, 1.0, 0.05),
-            PaymentConfig("CASH_ON_DELIVERY", 1.0, 1.02, 0.05),
-            PaymentConfig("VISA", 0.95, 1.0, 0.03),
-            PaymentConfig("BANK_TRANSFER", 1.0, 1.0, 0.0),
-            PaymentConfig("CHEQUE", 0.9, 1.0, 0.0),
-        )
     }
 }
