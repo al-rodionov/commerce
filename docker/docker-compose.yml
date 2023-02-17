@@ -5,30 +5,25 @@ services:
     image: commerce:0.1
     environment:
       - SPRING_PROFILES_ACTIVE=server
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
       commerce:
+    depends_on:
+      - db
   client:
     container_name: client
     image: commerce:0.1
     environment:
       - SPRING_PROFILES_ACTIVE=client
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
     networks:
       commerce:
+    depends_on:
+      - server
   db:
     container_name: db
     build:
       context: .
       dockerfile: db/Dockerfile
     restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
     networks:

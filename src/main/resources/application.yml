@@ -7,11 +7,18 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+commerce:
+  server:
+    port: 15002
 ---
 spring:
   config:
     activate:
       on-profile: server
+  datasource:
+    url: jdbc:postgresql://db:5432/postgres
+    username: postgres
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: none
@@ -27,11 +34,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+commerce:
+  server:
+    host: server
 ---
 spring:
   config:
     activate:
       on-profile: test
+  datasource:
+    url: jdbc:h2:mem:test_db
+    username:
+    password:
   jpa:
     hibernate:
       ddl-auto: create-drop

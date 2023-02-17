@@ -6,6 +6,7 @@ import com.commerce.util.print
 import io.grpc.ManagedChannelBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.math.RoundingMode
@@ -18,6 +19,11 @@ import kotlin.random.Random
 class CommerceClient {
 
     private val logger: Logger = LoggerFactory.getLogger(CommerceClient::class.java)
+
+    @Value("\${commerce.server.host}")
+    lateinit var serverHost: String
+    @Value("\${commerce.server.port}")
+    lateinit var serverPort: String
 
     @PostConstruct
     fun sendRequest() {
@@ -34,7 +40,7 @@ class CommerceClient {
     }
 
     private fun sendMessage() {
-        val channel = ManagedChannelBuilder.forAddress("server", 15002)
+        val channel = ManagedChannelBuilder.forAddress(serverHost, serverPort.toInt())
             .usePlaintext()
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)

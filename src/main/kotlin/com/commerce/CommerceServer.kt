@@ -29,24 +29,28 @@ import javax.annotation.PostConstruct
 @Component
 @Profile("server")
 class CommerceServer @Autowired constructor(
-    validatorService: ValidatorService,
-    storeService: TransactionStoreService,
-    priceCalcService: PriceCalcService,
-    pointsCalcService: PointsCalcService,
+    val validatorService: ValidatorService,
+    val storeService: TransactionStoreService,
+    val priceCalcService: PriceCalcService,
+    val pointsCalcService: PointsCalcService,
 ){
 
     private val logger: Logger = LoggerFactory.getLogger(CommerceServer::class.java)
     @Value("\${commerce.server.available.time}")
     lateinit var serverAvailableTime: String
+    @Value("\${commerce.server.port}")
+    lateinit var serverPort: String
 
-    val server: Server = ServerBuilder
-        .forPort(15002)
-        .addService(TransactionGrpcService(validatorService,
-            storeService, priceCalcService, pointsCalcService))
-        .build()
+    lateinit var server: Server
 
     @PostConstruct
     fun start() {
+        server = ServerBuilder
+            .forPort(serverPort.toInt())
+            .addService(TransactionGrpcService(validatorService,
+                storeService, priceCalcService, pointsCalcService))
+            .build()
+
         planningShutdown()
 
         server.start()
