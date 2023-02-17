@@ -5,10 +5,9 @@ import com.commerce.model.entity.Transaction
 import com.commerce.util.DATE_TIME
 import com.commerce.util.generateTransaction
 import com.commerce.util.generateTransactionContainer
+import com.commerce.util.parseDate
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 class TransactionMapperTests {
@@ -20,8 +19,7 @@ class TransactionMapperTests {
         assert(container.customerId == 1L)
         assert(container.price.equals(100.0))
         assert(container.priceModifier.equals(0.95))
-        val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd\'T\'HH:mm:ss\'Z\'")
-        assert(container.dateTime.isEqual(LocalDateTime.parse(DATE_TIME, pattern)))
+        assert(container.dateTime.isEqual(parseDate(DATE_TIME)))
 
         val additionalItem = container.additionalItem
         assert(additionalItem?.last4?.equals(1212) == true)
@@ -45,7 +43,7 @@ class TransactionMapperTests {
         assert(entity.customerId.equals(1L))
         assert(entity.price.equals(1000.00))
         assert(entity.priceModifier.equals(0.95))
-        assert(entity.dateTime.equals(mapDateTime(DATE_TIME)))
+        assert(entity.dateTime.equals(parseDate(DATE_TIME)))
         assert(entity.additionalItem.equals("last4=2345"))
     }
 }

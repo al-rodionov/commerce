@@ -4,7 +4,6 @@ import com.commerce.grpc.AdditionalItem
 import com.commerce.grpc.BankItem
 import com.commerce.grpc.TransactionRequest
 import com.commerce.model.container.TransactionContainer
-import com.commerce.mapper.mapDateTime
 
 val DATE_TIME: String = "2022-09-01T00:00:00Z";
 
@@ -40,7 +39,7 @@ fun generateTransactionContainer(paymentMethod: String,
         price = 1000.00,
         priceModifier = priceModifier,
         paymentMethod = paymentMethod,
-        dateTime = mapDateTime(DATE_TIME),
+        dateTime = parseDate(DATE_TIME),
         additionalItem = additionalItem,
         0.0, 0.0
     )

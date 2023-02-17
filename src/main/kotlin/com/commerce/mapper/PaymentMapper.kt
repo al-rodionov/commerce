@@ -4,8 +4,8 @@ import com.commerce.grpc.TransactionReportItem
 import com.commerce.grpc.transactionReportItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Payment
+import com.commerce.util.formatDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 fun toPaymentEntity(container: TransactionContainer): Payment = Payment(
     id = null,
@@ -17,7 +17,5 @@ fun toPaymentEntity(container: TransactionContainer): Payment = Payment(
 fun toReportItem(payment: Payment): TransactionReportItem = transactionReportItem {
     sales = payment.sales
     points = payment.points
-
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\'T\'HH:mm:ss\'Z\'")
-    dateTime = payment.dateTime.format(formatter)
+    dateTime = formatDate(payment.dateTime)
 }

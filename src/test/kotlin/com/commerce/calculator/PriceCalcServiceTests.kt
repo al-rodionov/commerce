@@ -1,10 +1,10 @@
 package com.commerce.calculator
 
-import com.commerce.mapper.mapDateTime
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PriceCalcService
 import com.commerce.util.DATE_TIME
 import com.commerce.util.generateTransactionContainer
+import com.commerce.util.parseDate
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,7 +28,7 @@ class PriceCalcServiceTests @Autowired constructor(
                 price = 333.18,
                 priceModifier = 0.33,
                 paymentMethod = "CASH",
-                dateTime = mapDateTime(DATE_TIME),
+                dateTime = parseDate(DATE_TIME),
                 additionalItem = null,
                 0.0, 0.0
             )

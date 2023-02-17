@@ -2,6 +2,7 @@ package com.commerce
 
 import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionRequest
+import com.commerce.util.formatDate
 import com.commerce.util.print
 import io.grpc.ManagedChannelBuilder
 import org.slf4j.Logger
@@ -11,27 +12,32 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.time.LocalDateTime
 import javax.annotation.PostConstruct
 import kotlin.random.Random
 
 @Component
-@Profile("client")
-class CommerceClient {
+@Profile("transaction-client")
+class CommerceTransactionClient {
 
-    private val logger: Logger = LoggerFactory.getLogger(CommerceClient::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(CommerceTransactionClient::class.java)
 
     @Value("\${commerce.server.host}")
     lateinit var serverHost: String
     @Value("\${commerce.server.port}")
     lateinit var serverPort: String
+    @Value("\${commerce.client.request.count}")
+    lateinit var requestCount: String
+    @Value("\${commerce.client.request.delay.between}")
+    lateinit var requestDelay: String
 
     @PostConstruct
     fun sendRequest() {
-        var counter = 100
+        var counter = requestCount.toInt()
         while (counter > 0) {
             counter--
             try {
-                Thread.sleep(5000)
+                Thread.sleep(requestDelay.toLong())
                 sendMessage()
             } catch (e: Exception) {
                 logger.error("Exception while sending request: {}", e.message)
@@ -56,7 +62,7 @@ class CommerceClient {
             .setPrice(generatePrice())
             .setPriceModifier(generatePriceModifier())
             .setPaymentMethod("CASH")
-            .setDateTime("2022-09-01T00:00:00Z")
+            .setDateTime(formatDate(LocalDateTime.now()))
             .build()
     }
 
