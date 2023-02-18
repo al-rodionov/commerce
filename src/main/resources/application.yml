@@ -72,3 +72,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+commerce:
+  server:
+    host: localhost
