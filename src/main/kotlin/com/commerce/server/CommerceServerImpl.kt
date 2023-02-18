@@ -28,11 +28,7 @@ import javax.annotation.PostConstruct
 @Component
 @Profile("server")
 class CommerceServerImpl @Autowired constructor(
-    val validatorService: ValidatorService,
-    val tranStoreService: TransactionStoreService,
-    val paymentStoreService: PaymentStoreService,
-    val priceCalcService: PriceCalcService,
-    val pointsCalcService: PointsCalcService,
+    val transactionGrpcService: TransactionGrpcService
 ) : CommerceServer {
 
     private val logger: Logger = LoggerFactory.getLogger(CommerceServerImpl::class.java)
@@ -47,15 +43,7 @@ class CommerceServerImpl @Autowired constructor(
     fun start() {
         server = ServerBuilder
             .forPort(serverPort.toInt())
-            .addService(
-                TransactionGrpcService(
-                    validatorService,
-                    tranStoreService,
-                    paymentStoreService,
-                    priceCalcService,
-                    pointsCalcService
-                )
-            )
+            .addService(transactionGrpcService)
             .build()
 
         planningShutdown()
@@ -77,71 +65,4 @@ class CommerceServerImpl @Autowired constructor(
         }, serverAvailableTime.toLong(), TimeUnit.SECONDS)
     }
 
-    private class TransactionGrpcService @Autowired constructor(
-        val validatorService: ValidatorService,
-        val tranStoreService: TransactionStoreService,
-        val paymentStoreService: PaymentStoreService,
-        val priceCalcService: PriceCalcService,
-        val pointsCalcService: PointsCalcService
-    ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
-
-        private val logger: Logger = LoggerFactory.getLogger(TransactionGrpcService::class.java)
-
-        override suspend fun transaction(request: TransactionRequest) : TransactionResponse {
-            try {
-                logger.info("Receive request {}", addIndentation(request))
-                val response = operateTransaction(request)
-                logger.info("Send response {}", addIndentation(response))
-                return response
-            } catch (e: ValidationException) {
-                throw StatusException(INVALID_ARGUMENT.withDescription(e.message))
-            }
-        }
-
-        private fun operateTransaction(request: TransactionRequest): TransactionResponse {
-            val container = toContainer(request)
-            validatorService.validate(container)
-
-            logger.info("Successfully validate, calculating price and points")
-            calcPriceAndPoints(container)
-
-            logger.info("Store transaction")
-            tranStoreService.store(container)
-
-            logger.info("Store payment")
-            paymentStoreService.store(container)
-
-            return createResponse(container)
-        }
-
-        private fun calcPriceAndPoints(container: TransactionContainer) {
-            val finalPrice = priceCalcService.calculate(container)
-            val points = pointsCalcService.calculate(container)
-
-            container.sales = finalPrice
-            container.points = points
-        }
-
-        fun createResponse(container: TransactionContainer) = transactionResponse {
-            finalPrice = container.sales
-            points = container.points
-        }
-
-        override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {
-            logger.info("Receive request {}", addIndentation(request))
-
-            val container = toContainer(request)
-            val payments: List<TransactionReportItem>  =
-                paymentStoreService.findReports(container).stream()
-                    .map { toReportItem(it) }
-                    .collect(Collectors.toList())
-
-            val response = TransactionReportResponse.newBuilder()
-                .addAllSales(payments)
-                .build()
-
-            logger.info("Send response {}", addIndentation(response))
-            return response
-        }
-    }
 }
