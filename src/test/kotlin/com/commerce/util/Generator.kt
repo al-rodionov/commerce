@@ -33,7 +33,7 @@ private fun generateBankItem(): BankItem =
 
 fun generateTransactionContainer(paymentMethod: String,
                                  priceModifier: Double,
-                                 additionalItem: com.commerce.model.container.AdditionalItem?): TransactionContainer =
+                                 additionalItem: TransactionContainer.AdditionalItem?): TransactionContainer =
     TransactionContainer(
         customerId = 1L,
         price = 1000.00,
