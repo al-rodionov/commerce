@@ -27,5 +27,8 @@ class Transaction (
     val dateTime: LocalDateTime,
 
     @Column(name = "ADDITIONAL_ITEM")
-    val additionalItem: String
+    val additionalItem: String,
+
+    @OneToOne(mappedBy = "transaction")
+    var payment: Payment?
 )

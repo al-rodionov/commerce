@@ -7,6 +7,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 commerce:
   server:
     port: 15002
@@ -19,9 +23,6 @@ spring:
     url: jdbc:postgresql://db:5432/postgres
     username: postgres
     password: postgres
-  jpa:
-    hibernate:
-      ddl-auto: none
 commerce:
   server:
     available:
@@ -60,18 +61,3 @@ commerce:
         between: 30000
       report:
         duration: 30
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:h2:mem:test_db
-    username:
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-commerce:
-  server:
-    host: localhost

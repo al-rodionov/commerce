@@ -8,25 +8,34 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD
 import org.springframework.test.context.ActiveProfiles
 
 
-@SpringBootTest
-@ActiveProfiles("test", "server")
+@SpringBootTest(properties = [
+    "spring.datasource.url=jdbc:h2:mem:test_db",
+    "spring.datasource.username=",
+    "spring.datasource.password="
+])
+@ActiveProfiles("server")
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 class CommerceServerImplTests {
 
+    companion object {
+        private const val SERVER_HOST: String = "localhost"
+    }
     @Value("\${commerce.server.port}")
     lateinit var serverPort: String
-    @Value("\${commerce.server.host}")
-    lateinit var serverHost: String
 
     @Test
     fun getResponseGrpc() {
-        val channel = ManagedChannelBuilder.forAddress(serverHost, serverPort.toInt())
+        val channel = ManagedChannelBuilder.forAddress(Companion.SERVER_HOST, serverPort.toInt())
             .usePlaintext()
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
         val response = stub.transaction(generateTransaction())
+
         Assertions.assertEquals(95.0, response.finalPrice)
         Assertions.assertEquals(5.01, response.points)
     }

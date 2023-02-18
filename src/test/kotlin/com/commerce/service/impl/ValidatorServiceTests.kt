@@ -5,17 +5,14 @@ import com.commerce.model.container.AdditionalItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.ValidatorService
 import com.commerce.util.generateTransactionContainer
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest
-@ActiveProfiles("test")
 class ValidatorServiceTests @Autowired constructor(
     val validatorService: ValidatorService
 ){

@@ -7,19 +7,25 @@ import com.commerce.model.container.TransactionReportContainer
 import com.commerce.model.entity.Payment
 import com.commerce.repo.PaymentRepository
 import com.commerce.repo.TransactionRepository
-import com.commerce.service.PaymentStoreService
-import com.commerce.service.TransactionStoreService
+import com.commerce.service.StoreService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class PaymentStoreServiceImpl @Autowired constructor(
+class StoreServiceImpl @Autowired constructor(
+    val transactionRepository: TransactionRepository,
     val paymentRepository: PaymentRepository
-) : PaymentStoreService {
+) : StoreService {
 
+    @Transactional
     override fun store(container: TransactionContainer) {
-        paymentRepository.save(toPaymentEntity(container))
+        val tranEntity = transactionRepository.save(toTranEntity(container))
+
+        val paymentEntity = toPaymentEntity(container)
+        paymentEntity.transaction = tranEntity
+
+        paymentRepository.save(paymentEntity)
     }
 
     override fun findReports(container: TransactionReportContainer): List<Payment> {

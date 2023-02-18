@@ -55,8 +55,6 @@ class TransactionMapperTests {
             TransactionContainer.AdditionalItem(5252, null, null)
         ))
 
-        println(entity.additionalItem)
-
         assertEquals("last4=5252", entity.additionalItem)
     }
 }

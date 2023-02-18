@@ -19,4 +19,7 @@ class Payment (
 
     @Column(nullable = false, name = "DATE_TIME")
     val dateTime: LocalDateTime,
+
+    @OneToOne
+    var transaction: Transaction?
 )
