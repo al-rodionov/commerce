@@ -1,10 +1,12 @@
-package com.commerce.validator
+package com.commerce.service.impl
 
 import com.commerce.exception.ValidationException
 import com.commerce.model.container.AdditionalItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.ValidatorService
 import com.commerce.util.generateTransactionContainer
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -70,6 +72,6 @@ class ValidatorServiceTests @Autowired constructor(
         val ex = assertThrows<ValidationException> {
             validatorService.validate(container)
         }
-        assert(errorMsg.equals(ex.message))
+        assertEquals(errorMsg, ex.message)
     }
 }

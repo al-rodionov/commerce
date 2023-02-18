@@ -6,6 +6,7 @@ import com.commerce.util.DATE_TIME
 import com.commerce.util.generateTransaction
 import com.commerce.util.generateTransactionContainer
 import com.commerce.util.parseDate
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -16,19 +17,19 @@ class TransactionMapperTests {
     fun grpcToContainer() {
         val container: TransactionContainer = toContainer(generateTransaction())
 
-        assert(container.customerId == 1L)
-        assert(container.price.equals(100.0))
-        assert(container.priceModifier.equals(0.95))
-        assert(container.dateTime.isEqual(parseDate(DATE_TIME)))
+        assertEquals(1L, container.customerId)
+        assertEquals(100.0, container.price)
+        assertEquals(0.95, container.priceModifier)
+        assertEquals(parseDate(DATE_TIME), container.dateTime)
 
         val additionalItem = container.additionalItem
-        assert(additionalItem?.last4?.equals(1212) == true)
-        assert(additionalItem?.courier.equals("YAMATO"))
+        assertEquals(1212, additionalItem?.last4)
+        assertEquals("YAMATO", additionalItem?.courier)
 
         val bankItem = additionalItem?.bankItem
-        assert(bankItem?.bankName.equals("Bank Name 1"))
-        assert(bankItem?.accountNumber.equals("1234567"))
-        assert(bankItem?.chequeNumber.equals("7654321"))
+        assertEquals(bankItem?.bankName, "Bank Name 1")
+        assertEquals(bankItem?.accountNumber, "1234567")
+        assertEquals(bankItem?.chequeNumber, "7654321")
     }
 
     @Test
@@ -40,11 +41,11 @@ class TransactionMapperTests {
         )
         val entity: Transaction = toTranEntity(container)
 
-        assert(entity.customerId.equals(1L))
-        assert(entity.price.equals(1000.00))
-        assert(entity.priceModifier.equals(0.95))
-        assert(entity.dateTime.equals(parseDate(DATE_TIME)))
-        assert(entity.additionalItem.equals("last4=2345"))
+        assertEquals(1L, entity.customerId)
+        assertEquals(1000.00, entity.price)
+        assertEquals(0.95, entity.priceModifier)
+        assertEquals(parseDate(DATE_TIME), entity.dateTime)
+        assertEquals("last4=2345", entity.additionalItem)
     }
 
     @Test
@@ -56,6 +57,6 @@ class TransactionMapperTests {
 
         println(entity.additionalItem)
 
-        assert(entity.additionalItem.equals("last4=5252"))
+        assertEquals("last4=5252", entity.additionalItem)
     }
 }
