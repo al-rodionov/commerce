@@ -1,4 +1,4 @@
-package com.commerce.service.impl
+package com.commerce.service.impl.config
 
 import com.commerce.exception.ValidationException
 import com.commerce.mapper.toCache

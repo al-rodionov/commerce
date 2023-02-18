@@ -6,10 +6,8 @@ import com.commerce.grpc.*
 import com.commerce.mapper.toContainer
 import com.commerce.mapper.toReportItem
 import com.commerce.model.container.TransactionContainer
-import com.commerce.service.PointsCalcService
-import com.commerce.service.PriceCalcService
-import com.commerce.service.TransactionStoreService
-import com.commerce.service.ValidatorService
+import com.commerce.model.container.TransactionReportContainer
+import com.commerce.service.*
 import com.commerce.util.addIndentation
 import com.commerce.util.parseDate
 import io.grpc.Server
@@ -31,7 +29,8 @@ import javax.annotation.PostConstruct
 @Profile("server")
 class CommerceServerImpl @Autowired constructor(
     val validatorService: ValidatorService,
-    val storeService: TransactionStoreService,
+    val tranStoreService: TransactionStoreService,
+    val paymentStoreService: PaymentStoreService,
     val priceCalcService: PriceCalcService,
     val pointsCalcService: PointsCalcService,
 ) : CommerceServer {
@@ -49,8 +48,13 @@ class CommerceServerImpl @Autowired constructor(
         server = ServerBuilder
             .forPort(serverPort.toInt())
             .addService(
-                TransactionGrpcService(validatorService,
-                storeService, priceCalcService, pointsCalcService)
+                TransactionGrpcService(
+                    validatorService,
+                    tranStoreService,
+                    paymentStoreService,
+                    priceCalcService,
+                    pointsCalcService
+                )
             )
             .build()
 
@@ -75,7 +79,8 @@ class CommerceServerImpl @Autowired constructor(
 
     private class TransactionGrpcService @Autowired constructor(
         val validatorService: ValidatorService,
-        val storeService: TransactionStoreService,
+        val tranStoreService: TransactionStoreService,
+        val paymentStoreService: PaymentStoreService,
         val priceCalcService: PriceCalcService,
         val pointsCalcService: PointsCalcService
     ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
@@ -100,8 +105,11 @@ class CommerceServerImpl @Autowired constructor(
             logger.info("Successfully validate, calculating price and points")
             calcPriceAndPoints(container)
 
-            logger.info("Store transaction and payment")
-            storeService.store(container)
+            logger.info("Store transaction")
+            tranStoreService.store(container)
+
+            logger.info("Store payment")
+            paymentStoreService.store(container)
 
             return createResponse(container)
         }
@@ -121,16 +129,17 @@ class CommerceServerImpl @Autowired constructor(
 
         override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {
             logger.info("Receive request {}", addIndentation(request))
+
+            val container = toContainer(request)
             val payments: List<TransactionReportItem>  =
-                storeService.findAllBetweenDates(
-                    parseDate(request.startDateTime),
-                    parseDate(request.endDateTime)
-                ).stream()
+                paymentStoreService.findReports(container).stream()
                     .map { toReportItem(it) }
                     .collect(Collectors.toList())
+
             val response = TransactionReportResponse.newBuilder()
                 .addAllSales(payments)
                 .build()
+
             logger.info("Send response {}", addIndentation(response))
             return response
         }

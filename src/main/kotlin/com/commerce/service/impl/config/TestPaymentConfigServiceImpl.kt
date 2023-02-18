@@ -1,4 +1,4 @@
-package com.commerce.service.impl
+package com.commerce.service.impl.config
 
 import com.commerce.exception.ValidationException
 import com.commerce.model.cache.PaymentConfig
@@ -15,6 +15,7 @@ class TestPaymentConfigServiceImpl : PaymentConfigService {
             ?: throw ValidationException("Invalid payment method")
     }
 
+//    todo as const
     private fun getPaymentsConfigs(): List<PaymentConfig> {
         return listOf(
             PaymentConfig("CASH", 0.9, 1.0, 0.05),
