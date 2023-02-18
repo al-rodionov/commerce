@@ -1,6 +1,7 @@
 package com.commerce.validator
 
 import com.commerce.exception.ValidationException
+import com.commerce.model.container.AdditionalItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.ValidatorService
 import com.commerce.util.generateTransactionContainer
@@ -22,7 +23,7 @@ class ValidatorServiceTests @Autowired constructor(
         validatorService.validate(generateTransactionContainer())
         validatorService.validate(generateTransactionContainer(
             "VISA", 0.95,
-            TransactionContainer.AdditionalItem(1111, null, null)
+            AdditionalItem(1111, null, null)
         ))
     }
 

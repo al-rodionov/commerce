@@ -1,5 +1,6 @@
 package com.commerce.mapper
 
+import com.commerce.model.container.AdditionalItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
 import com.commerce.util.DATE_TIME
@@ -36,7 +37,7 @@ class TransactionMapperTests {
         val container = generateTransactionContainer(
             "CASH",
             0.95,
-            TransactionContainer.AdditionalItem(2345, null, null)
+            AdditionalItem(2345, null, null)
         )
         val entity: Transaction = toTranEntity(container)
 
@@ -45,5 +46,17 @@ class TransactionMapperTests {
         assert(entity.priceModifier.equals(0.95))
         assert(entity.dateTime.equals(parseDate(DATE_TIME)))
         assert(entity.additionalItem.equals("last4=2345"))
+    }
+
+    @Test
+    fun AdditionalItemsDbDescription() {
+        val entity = toTranEntity(generateTransactionContainer(
+            "VISA", 0.95,
+            AdditionalItem(5252, null, null)
+        ))
+
+        println(entity.additionalItem)
+
+        assert(entity.additionalItem.equals("last4=5252"))
     }
 }

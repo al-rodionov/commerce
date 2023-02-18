@@ -2,7 +2,7 @@ package com.commerce.validator
 
 import com.commerce.exception.ValidationException
 import com.commerce.model.cache.PaymentConfig
-import com.commerce.model.container.TransactionContainer
+import com.commerce.model.container.AdditionalItem
 
 
 fun validatePriceModifier(config: PaymentConfig,
@@ -16,7 +16,7 @@ fun validatePriceModifier(config: PaymentConfig,
 }
 
 fun validateAdditional(paymentMethod: String,
-                       additionalItem: TransactionContainer.AdditionalItem?) {
+                       additionalItem: AdditionalItem?) {
     when(paymentMethod) {
         "CASH_ON_DELIVERY" ->
             if (additionalItem?.courier != "YAMATO" && additionalItem?.courier != "SAGAWA") {
