@@ -13,16 +13,16 @@ class TransactionContainer(
 
     var sales: Double,
     var points: Double,
-)
+) {
+    class AdditionalItem(
+        val last4: Int?,
+        val courier: String?,
+        val bankItem: BankItem?
+    )
 
-class AdditionalItem(
-    val last4: Int?,
-    val courier: String?,
-    val bankItem: BankItem?
-)
-
-class BankItem(
-    val bankName: String,
-    val accountNumber: String?,
-    val chequeNumber: String?
-)
+    class BankItem(
+        val bankName: String,
+        val accountNumber: String?,
+        val chequeNumber: String?
+    )
+}

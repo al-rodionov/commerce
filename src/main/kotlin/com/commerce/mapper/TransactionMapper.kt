@@ -28,14 +28,14 @@ fun toTranEntity(container: TransactionContainer) = Transaction(
 )
 
 private fun mapAdditionalItem(additionalItem: AdditionalItem) =
-    com.commerce.model.container.AdditionalItem(
+    TransactionContainer.AdditionalItem(
         last4 = additionalItem.last4,
         courier = additionalItem.courier,
         bankItem = mapBankItem(additionalItem.bankItem)
     )
 
 private fun mapBankItem(bankItem: BankItem) =
-    com.commerce.model.container.BankItem(
+    TransactionContainer.BankItem(
         bankName = bankItem.bankName,
         accountNumber = bankItem.accountNumber,
         chequeNumber = bankItem.chequeNumber
@@ -43,7 +43,7 @@ private fun mapBankItem(bankItem: BankItem) =
 
 private const val EMPTY_STRING = ""
 
-private fun additionalItemDbDescription(additionalItem: com.commerce.model.container.AdditionalItem?): String {
+private fun additionalItemDbDescription(additionalItem: TransactionContainer.AdditionalItem?): String {
     if (additionalItem == null) {
         return EMPTY_STRING
     }
