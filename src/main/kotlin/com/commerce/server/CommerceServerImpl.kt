@@ -10,8 +10,8 @@ import com.commerce.service.PointsCalcService
 import com.commerce.service.PriceCalcService
 import com.commerce.service.TransactionStoreService
 import com.commerce.service.ValidatorService
+import com.commerce.util.addIndentation
 import com.commerce.util.parseDate
-import com.commerce.util.print
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.Status.INVALID_ARGUMENT
@@ -84,36 +84,34 @@ class CommerceServerImpl @Autowired constructor(
 
         override suspend fun transaction(request: TransactionRequest) : TransactionResponse {
             try {
-
-
-//                companion object {
-//                    private const val IDENTATION_LEVEL: Int = 101
-//                    private val SPACES: String = " ".repeat(IDENTATION_LEVEL)
-//                }
-
-
-//                logger.info(req.toString().replace("\n", "\n" + SPACES))
-
-                logger.info("Receive request {}", request.print())
-                val container = toContainer(request)
-                validatorService.validate(container)
-
-                logger.info("Successfully validate, calculating price and points")
-                val finalPrice = priceCalcService.calculate(container)
-                val points = pointsCalcService.calculate(container)
-
-                container.sales = finalPrice
-                container.points = points
-
-                logger.info("Store transaction and payment")
-                storeService.store(container)
-
-                val response = createResponse(container)
-                logger.info("Send response {}", response.print())
+                logger.info("Receive request {}", addIndentation(request))
+                val response = operateTransaction(request)
+                logger.info("Send response {}", addIndentation(response))
                 return response
             } catch (e: ValidationException) {
                 throw StatusException(INVALID_ARGUMENT.withDescription(e.message))
             }
+        }
+
+        private fun operateTransaction(request: TransactionRequest): TransactionResponse {
+            val container = toContainer(request)
+            validatorService.validate(container)
+
+            logger.info("Successfully validate, calculating price and points")
+            calcPriceAndPoints(container)
+
+            logger.info("Store transaction and payment")
+            storeService.store(container)
+
+            return createResponse(container)
+        }
+
+        private fun calcPriceAndPoints(container: TransactionContainer) {
+            val finalPrice = priceCalcService.calculate(container)
+            val points = pointsCalcService.calculate(container)
+
+            container.sales = finalPrice
+            container.points = points
         }
 
         fun createResponse(container: TransactionContainer) = transactionResponse {
@@ -122,7 +120,7 @@ class CommerceServerImpl @Autowired constructor(
         }
 
         override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {
-            logger.info("Receive request {}", request.print())
+            logger.info("Receive request {}", addIndentation(request))
             val payments: List<TransactionReportItem>  =
                 storeService.findAllBetweenDates(
                     parseDate(request.startDateTime),
@@ -133,7 +131,7 @@ class CommerceServerImpl @Autowired constructor(
             val response = TransactionReportResponse.newBuilder()
                 .addAllSales(payments)
                 .build()
-            logger.info("Send response {}", response.print())
+            logger.info("Send response {}", addIndentation(response))
             return response
         }
     }

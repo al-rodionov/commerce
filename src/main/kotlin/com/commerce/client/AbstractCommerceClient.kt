@@ -3,13 +3,14 @@ package com.commerce.client
 import com.commerce.CommerceClient
 import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.CommerceGrpc.CommerceBlockingStub
+import com.commerce.util.addIndentation
 import io.grpc.ManagedChannelBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import javax.annotation.PostConstruct
 
-abstract class AbstractCommerceClient<Request, Response>: CommerceClient<Request, Response> {
+abstract class AbstractCommerceClient<Request: Any, Response: Any>: CommerceClient<Request, Response> {
 
     private val logger: Logger = LoggerFactory.getLogger(AbstractCommerceClient::class.java)
 
@@ -44,9 +45,9 @@ abstract class AbstractCommerceClient<Request, Response>: CommerceClient<Request
         Thread.sleep(requestDelay.toLong())
 
         val request = generateRequest()
-        logger.info("Send request {}", request)
+        logger.info("Send request {}", addIndentation(request))
         val response = getResponse(stub, request)
-        logger.info("Receive response {}", response)
+        logger.info("Receive response {}", addIndentation(response))
     }
 
     abstract fun generateRequest(): Request
