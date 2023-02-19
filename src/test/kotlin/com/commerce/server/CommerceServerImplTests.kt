@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest(properties = [
-    "commerce.server.port: 15002"
+    "commerce.server.port: 15015"
 ])
 @ActiveProfiles("server")
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)

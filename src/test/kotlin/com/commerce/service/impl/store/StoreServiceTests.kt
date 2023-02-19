@@ -4,19 +4,16 @@ import com.commerce.repo.PaymentRepository
 import com.commerce.repo.TransactionRepository
 import com.commerce.service.StoreService
 import com.commerce.util.generateTransactionContainer
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.DirtiesContext
-import org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ActiveProfiles
 
-@SpringBootTest(properties = [
-    "commerce.server.port: 15005"
-])
+@DataJpaTest()
 @ActiveProfiles("server")
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@ComponentScan(basePackages = ["com.commerce.service.impl.store"])
 class StoreServiceTests @Autowired constructor(
     val storeService: StoreService,
     val transactionRepository: TransactionRepository,
@@ -30,7 +27,7 @@ class StoreServiceTests @Autowired constructor(
         storeService.store(generateTransactionContainer())
         storeService.store(generateTransactionContainer())
 
-        assertTrue(transactionRepository.findAll().size >= 3)
-        assertTrue(paymentRepository.findAll().size >= 3)
+        assertEquals(3, transactionRepository.findAll().size)
+        assertEquals(3, paymentRepository.findAll().size)
     }
 }

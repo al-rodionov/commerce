@@ -1,5 +1,6 @@
 package com.commerce.service.impl.calc
 
+import com.commerce.CommerceServer
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PointsCalcService
 import com.commerce.util.DATE_TIME
@@ -9,15 +10,15 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 
 
-@SpringBootTest(properties = [
-    "commerce.server.port: 15003"
-])
+@SpringBootTest
 @ActiveProfiles("server")
 class PointsCalcServiceTests @Autowired constructor(
-    val calculator: PointsCalcService
+    val calculator: PointsCalcService,
+    @MockBean val commerceServer: CommerceServer
 ) {
 
     @Test
