@@ -14,9 +14,7 @@ import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest(properties = [
-    "spring.datasource.url=jdbc:h2:mem:test_db",
-    "spring.datasource.username=",
-    "spring.datasource.password="
+    "commerce.server.port: 15002"
 ])
 @ActiveProfiles("server")
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)

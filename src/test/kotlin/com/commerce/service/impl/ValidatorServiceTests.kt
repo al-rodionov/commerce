@@ -9,9 +9,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-
-@SpringBootTest
+@SpringBootTest(properties = [
+    "commerce.server.port: 15006"
+])
+@ActiveProfiles("server")
 class ValidatorServiceTests @Autowired constructor(
     val validatorService: ValidatorService
 ){

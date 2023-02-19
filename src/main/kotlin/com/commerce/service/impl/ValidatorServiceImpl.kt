@@ -6,9 +6,11 @@ import com.commerce.service.ValidatorService
 import com.commerce.validator.validateAdditional
 import com.commerce.validator.validatePriceModifier
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 @Service
+@Profile("server")
 class ValidatorServiceImpl @Autowired constructor(
     val configService: PaymentConfigService
 ) : ValidatorService {

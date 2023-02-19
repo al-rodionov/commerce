@@ -9,10 +9,12 @@ import com.commerce.repo.PaymentRepository
 import com.commerce.repo.TransactionRepository
 import com.commerce.service.StoreService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Profile("server")
 class StoreServiceImpl @Autowired constructor(
     val transactionRepository: TransactionRepository,
     val paymentRepository: PaymentRepository

@@ -4,11 +4,13 @@ import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PaymentConfigService
 import com.commerce.service.PointsCalcService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.RoundingMode
 
 @Service
+@Profile("server")
 class PointsCalcImpl @Autowired constructor(
     val configService: PaymentConfigService
 ) : PointsCalcService {
