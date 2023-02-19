@@ -2,20 +2,19 @@ version: '1'
 services:
   server:
     container_name: server
-    image: commerce:1.5
+    image: commerce:1.6
     environment:
       - SPRING_PROFILES_ACTIVE=server
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       commerce:
     depends_on:
       - db
   transaction-client:
     container_name: transaction-client
-    image: commerce:1.5
+    image: commerce:1.6
     environment:
       - SPRING_PROFILES_ACTIVE=transaction-client
     networks:
@@ -24,7 +23,7 @@ services:
       - server
   report-client:
     container_name: report-client
-    image: commerce:1.5
+    image: commerce:1.6
     environment:
       - SPRING_PROFILES_ACTIVE=report-client
     networks:

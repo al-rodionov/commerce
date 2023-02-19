@@ -1,0 +1,130 @@
+databaseChangeLog:
+  - changeSet:
+      id: createPaymentTable
+      author: al-rodionov
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: payment_pkey
+                  name: id
+                  startWith: 27
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date_time
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: points
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: sales
+                  type: FLOAT8
+              - column:
+                  name: transaction_id
+                  type: INTEGER
+            tableName: payment
+  - changeSet:
+      id: createPaymentMethodTable
+      author: al-rodionov
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: payment_method_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: points_modifier
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price_modifier_max
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price_modifier_min
+                  type: FLOAT8
+            tableName: payment_method
+  - changeSet:
+      id: createTransactionTable
+      author: al-rodionov
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: transaction_pkey
+                  name: id
+                  startWith: 27
+                  type: INTEGER
+              - column:
+                  name: additional_item
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: customer_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date_time
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: payment_method
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price_modifier
+                  type: FLOAT8
+            tableName: transaction
+  - changeSet:
+      id: addTransactionPaymentFK
+      author: al-rodionov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: transaction_id
+            baseTableName: payment
+            constraintName: fk53qo12unt0o5flr83axs6v2i7
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: transaction
+            validate: true
+
