@@ -1,6 +1,5 @@
 package com.commerce.client
 
-import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionReportRequest
 import com.commerce.grpc.TransactionReportResponse
 import com.commerce.util.formatDate
@@ -25,8 +24,7 @@ class CommerceReportClient : AbstractCommerceClient<TransactionReportRequest, Tr
 
     }
 
-    override fun getResponse(stub: CommerceGrpc.CommerceBlockingStub,
-                             request: TransactionReportRequest): TransactionReportResponse {
+    override fun getResponse(request: TransactionReportRequest): TransactionReportResponse {
         return stub.transactionReport(request)
     }
 }
