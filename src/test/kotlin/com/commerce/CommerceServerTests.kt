@@ -2,6 +2,7 @@ package com.commerce
 
 import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionRequest
+import com.commerce.util.DATE_TIME
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
@@ -33,7 +34,7 @@ class CommerceServerTests {
             .setPrice(100.0)
             .setPriceModifier(0.95)
             .setPaymentMethod("CASH")
-            .setDateTime("2022-09-01T00:00:00Z")
+            .setDateTime(DATE_TIME)
             .build()
     }
 }

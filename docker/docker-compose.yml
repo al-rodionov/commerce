@@ -2,18 +2,27 @@ version: '1'
 services:
   server:
     container_name: server
-    image: commerce:0.1
+    image: commerce:1.0
     environment:
       - SPRING_PROFILES_ACTIVE=server
     networks:
       commerce:
     depends_on:
       - db
-  client:
-    container_name: client
-    image: commerce:0.1
+  transaction-client:
+    container_name: transaction-client
+    image: commerce:1.0
     environment:
-      - SPRING_PROFILES_ACTIVE=client
+      - SPRING_PROFILES_ACTIVE=transaction-client
+    networks:
+      commerce:
+    depends_on:
+      - server
+  report-client:
+    container_name: report-client
+    image: commerce:1.0
+    environment:
+      - SPRING_PROFILES_ACTIVE=report-client
     networks:
       commerce:
     depends_on:

@@ -5,15 +5,14 @@ import com.commerce.grpc.BankItem
 import com.commerce.grpc.TransactionRequest
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.commerce.util.parseDate
 
 fun toContainer(request: TransactionRequest) = TransactionContainer(
     customerId = request.customerId,
     price = request.price,
     priceModifier = request.priceModifier,
     paymentMethod = request.paymentMethod,
-    dateTime = mapDateTime(request.dateTime),
+    dateTime = parseDate(request.dateTime),
     additionalItem = mapAdditionalItem(request.additionalItem),
     0.0, 0.0
 )
@@ -27,11 +26,6 @@ fun toTranEntity(container: TransactionContainer) = Transaction(
     dateTime = container.dateTime,
     additionalItem = container.additionalItem.toString()
 )
-
-fun mapDateTime(date: String): LocalDateTime {
-    val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd\'T\'HH:mm:ss\'Z\'")
-    return LocalDateTime.parse(date, pattern)
-}
 
 private fun mapAdditionalItem(additionalItem: AdditionalItem): TransactionContainer.AdditionalItem =
     TransactionContainer.AdditionalItem(

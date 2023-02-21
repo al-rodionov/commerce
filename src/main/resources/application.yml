@@ -30,13 +30,36 @@ commerce:
 spring:
   config:
     activate:
-      on-profile: client
+      on-profile: transaction-client
   jpa:
     hibernate:
       ddl-auto: none
 commerce:
   server:
     host: server
+  client:
+    request:
+      count: 100
+      delay:
+        between: 5000
+---
+spring:
+  config:
+    activate:
+      on-profile: report-client
+  jpa:
+    hibernate:
+      ddl-auto: none
+commerce:
+  server:
+    host: server
+  client:
+    request:
+      count: 10
+      delay:
+        between: 30000
+      report:
+        duration: 30
 ---
 spring:
   config:

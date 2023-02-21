@@ -2,7 +2,6 @@ package com.commerce
 
 import com.commerce.exception.ValidationException
 import com.commerce.grpc.*
-import com.commerce.mapper.mapDateTime
 import com.commerce.mapper.toContainer
 import com.commerce.mapper.toReportItem
 import com.commerce.model.container.TransactionContainer
@@ -10,6 +9,7 @@ import com.commerce.service.PointsCalcService
 import com.commerce.service.PriceCalcService
 import com.commerce.service.TransactionStoreService
 import com.commerce.service.ValidatorService
+import com.commerce.util.parseDate
 import com.commerce.util.print
 import io.grpc.Server
 import io.grpc.ServerBuilder
@@ -112,8 +112,8 @@ class CommerceServer @Autowired constructor(
             logger.info("Receive request {}", request.print())
             val payments: List<TransactionReportItem>  =
                 storeService.findAllBetweenDates(
-                    mapDateTime(request.startDateTime),
-                    mapDateTime(request.endDateTime)
+                    parseDate(request.startDateTime),
+                    parseDate(request.endDateTime)
                 ).stream()
                     .map { toReportItem(it) }
                     .collect(Collectors.toList())

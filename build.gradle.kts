@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.commerce"
-version = "0.1"
+version = "1.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 val grpcVersion = "1.50.2"
