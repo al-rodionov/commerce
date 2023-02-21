@@ -2,7 +2,7 @@ version: '1'
 services:
   server:
     container_name: server
-    image: commerce:1.0
+    image: commerce:1.1
     environment:
       - SPRING_PROFILES_ACTIVE=server
     networks:
@@ -11,7 +11,7 @@ services:
       - db
   transaction-client:
     container_name: transaction-client
-    image: commerce:1.0
+    image: commerce:1.1
     environment:
       - SPRING_PROFILES_ACTIVE=transaction-client
     networks:
@@ -20,7 +20,7 @@ services:
       - server
   report-client:
     container_name: report-client
-    image: commerce:1.0
+    image: commerce:1.1
     environment:
       - SPRING_PROFILES_ACTIVE=report-client
     networks:

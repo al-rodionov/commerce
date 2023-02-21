@@ -12,14 +12,16 @@ import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
 @ActiveProfiles("test", "server")
-class CommerceServerTests {
+class CommerceServerImplTests {
 
     @Value("\${commerce.server.port}")
     lateinit var serverPort: String
+    @Value("\${commerce.server.host}")
+    lateinit var serverHost: String
 
     @Test
     fun getResponseGrpc() {
-        val channel = ManagedChannelBuilder.forAddress("localhost", serverPort.toInt())
+        val channel = ManagedChannelBuilder.forAddress(serverHost, serverPort.toInt())
             .usePlaintext()
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
