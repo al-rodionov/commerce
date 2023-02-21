@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD
+import org.springframework.test.context.ActiveProfiles
 
-
-@SpringBootTest
+@SpringBootTest(properties = [
+    "commerce.server.port: 15005"
+])
+@ActiveProfiles("server")
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 class StoreServiceTests @Autowired constructor(
     val storeService: StoreService,

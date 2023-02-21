@@ -19,10 +19,6 @@ spring:
   config:
     activate:
       on-profile: server
-  datasource:
-    url: jdbc:postgresql://db:5432/postgres
-    username: postgres
-    password: postgres
 commerce:
   server:
     available:
@@ -32,9 +28,8 @@ spring:
   config:
     activate:
       on-profile: transaction-client
-  jpa:
-    hibernate:
-      ddl-auto: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 commerce:
   server:
     host: server
@@ -48,9 +43,8 @@ spring:
   config:
     activate:
       on-profile: report-client
-  jpa:
-    hibernate:
-      ddl-auto: none
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 commerce:
   server:
     host: server

@@ -9,9 +9,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
 
-@SpringBootTest
+@SpringBootTest(properties = [
+    "commerce.server.port: 15003"
+])
+@ActiveProfiles("server")
 class PointsCalcServiceTests @Autowired constructor(
     val calculator: PointsCalcService
 ) {
