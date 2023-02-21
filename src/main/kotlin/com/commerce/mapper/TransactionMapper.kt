@@ -24,19 +24,41 @@ fun toTranEntity(container: TransactionContainer) = Transaction(
     priceModifier = container.priceModifier,
     paymentMethod = container.paymentMethod,
     dateTime = container.dateTime,
-    additionalItem = container.additionalItem.toString()
+    additionalItem = additionalItemDbDescription(container.additionalItem)
 )
 
-private fun mapAdditionalItem(additionalItem: AdditionalItem): TransactionContainer.AdditionalItem =
+private fun mapAdditionalItem(additionalItem: AdditionalItem) =
     TransactionContainer.AdditionalItem(
         last4 = additionalItem.last4,
         courier = additionalItem.courier,
         bankItem = mapBankItem(additionalItem.bankItem)
     )
 
-private fun mapBankItem(bankItem: BankItem): TransactionContainer.BankItem =
+private fun mapBankItem(bankItem: BankItem) =
     TransactionContainer.BankItem(
         bankName = bankItem.bankName,
         accountNumber = bankItem.accountNumber,
         chequeNumber = bankItem.chequeNumber
     )
+
+private const val EMPTY_STRING = ""
+
+private fun additionalItemDbDescription(additionalItem: TransactionContainer.AdditionalItem?): String {
+    if (additionalItem == null) {
+        return EMPTY_STRING
+    }
+    if (additionalItem.last4 != null) {
+        return  "last4=${additionalItem.last4}"
+    }
+    if (additionalItem.courier != null) {
+        return "courier=${additionalItem.courier}"
+    }
+    val bankItem = additionalItem.bankItem
+    if (bankItem != null) {
+        if (bankItem.accountNumber != null) {
+            return "bankName=${bankItem.bankName};accountNumber=${bankItem.accountNumber}"
+        }
+        return "bankName=${bankItem.bankName};chequeNumber=${bankItem.chequeNumber}"
+    }
+    return  EMPTY_STRING
+}

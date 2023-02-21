@@ -46,4 +46,16 @@ class TransactionMapperTests {
         assert(entity.dateTime.equals(parseDate(DATE_TIME)))
         assert(entity.additionalItem.equals("last4=2345"))
     }
+
+    @Test
+    fun AdditionalItemsDbDescription() {
+        val entity = toTranEntity(generateTransactionContainer(
+            "VISA", 0.95,
+            TransactionContainer.AdditionalItem(5252, null, null)
+        ))
+
+        println(entity.additionalItem)
+
+        assert(entity.additionalItem.equals("last4=5252"))
+    }
 }

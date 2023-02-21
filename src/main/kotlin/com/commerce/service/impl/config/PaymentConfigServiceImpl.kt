@@ -1,7 +1,7 @@
 package com.commerce.service.impl.config
 
 import com.commerce.exception.ValidationException
-import com.commerce.mapper.toCache
+import com.commerce.mapper.toPaymentConfig
 import com.commerce.model.cache.PaymentConfig
 import com.commerce.repo.PaymentMethodRepository
 import com.commerce.service.PaymentConfigService
@@ -17,7 +17,7 @@ class PaymentConfigServiceImpl @Autowired constructor(
 ) : PaymentConfigService {
 
     val configs: List<PaymentConfig> = repository.findAll().stream()
-        .map { toCache(it) }
+        .map { toPaymentConfig(it) }
         .collect(Collectors.toList())
 
     override fun getPaymentConfig(paymentMethod: String): PaymentConfig {

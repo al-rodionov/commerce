@@ -15,7 +15,7 @@ message TransactionRequest {
   double priceModifier = 3;
   string paymentMethod = 4;
   string dateTime = 5;
-  AdditionalItem additionalItem = 6;
+  optional AdditionalItem additionalItem = 6;
 }
 
 message AdditionalItem {
