@@ -5,19 +5,12 @@ import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Payment
 import java.time.LocalDateTime
 
-interface ValidatorService {
-    fun validate(container: TransactionContainer)
-}
-
 interface PaymentConfigService {
     fun getPaymentConfig(paymentMethod: String): PaymentConfig
 }
 
-interface TransactionStoreService {
-    fun store(container: TransactionContainer)
-
-    fun findAllBetweenDates(beginDate: LocalDateTime,
-                            endDate: LocalDateTime): List<Payment>
+interface ValidatorService {
+    fun validate(container: TransactionContainer)
 }
 
 interface Calculator {
@@ -27,3 +20,10 @@ interface Calculator {
 interface PointsCalcService : Calculator
 
 interface PriceCalcService : Calculator
+
+interface TransactionStoreService {
+    fun store(container: TransactionContainer)
+
+    fun findAllBetweenDates(beginDate: LocalDateTime,
+                            endDate: LocalDateTime): List<Payment>
+}
