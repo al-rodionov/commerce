@@ -1,6 +1,5 @@
 package com.commerce.mapper
 
-import com.commerce.grpc.TransactionReportItem
 import com.commerce.grpc.transactionReportItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Payment
@@ -11,7 +10,8 @@ fun toPaymentEntity(container: TransactionContainer) = Payment(
     id = null,
     sales = container.sales,
     points = container.points,
-    dateTime = LocalDateTime.now()
+    dateTime = LocalDateTime.now(),
+    null
 )
 
 fun toReportItem(payment: Payment) = transactionReportItem {

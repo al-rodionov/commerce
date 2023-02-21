@@ -2,17 +2,16 @@ package com.commerce.service.impl.calc
 
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PointsCalcService
-import com.commerce.util.*
-import org.junit.jupiter.api.Assertions
+import com.commerce.util.DATE_TIME
+import com.commerce.util.generateTransactionContainer
+import com.commerce.util.parseDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
 
 
 @SpringBootTest
-@ActiveProfiles("test")
 class PointsCalcServiceTests @Autowired constructor(
     val calculator: PointsCalcService
 ) {

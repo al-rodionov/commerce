@@ -21,10 +21,9 @@ import java.util.stream.Collectors
 @Profile("server")
 class TransactionGrpcService @Autowired constructor(
     val validatorService: ValidatorService,
-    val tranStoreService: TransactionStoreService,
-    val paymentStoreService: PaymentStoreService,
     val priceCalcService: PriceCalcService,
-    val pointsCalcService: PointsCalcService
+    val pointsCalcService: PointsCalcService,
+    val storeService: StoreService
 ) : CommerceGrpcKt.CommerceCoroutineImplBase() {
 
     private val logger: Logger = LoggerFactory.getLogger(TransactionGrpcService::class.java)
@@ -47,11 +46,8 @@ class TransactionGrpcService @Autowired constructor(
         logger.info("Successfully validate, calculating price and points")
         calcPriceAndPoints(container)
 
-        logger.info("Store transaction")
-        tranStoreService.store(container)
-
-        logger.info("Store payment")
-        paymentStoreService.store(container)
+        logger.info("Store transaction and payment")
+        storeService.store(container)
 
         return createResponse(container)
     }
@@ -74,7 +70,7 @@ class TransactionGrpcService @Autowired constructor(
 
         val container = toContainer(request)
         val payments: List<TransactionReportItem>  =
-            paymentStoreService.findReports(container).stream()
+            storeService.findReports(container).stream()
                 .map { toReportItem(it) }
                 .collect(Collectors.toList())
 

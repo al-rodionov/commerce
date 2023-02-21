@@ -24,7 +24,8 @@ fun toTranEntity(container: TransactionContainer) = Transaction(
     priceModifier = container.priceModifier,
     paymentMethod = container.paymentMethod,
     dateTime = container.dateTime,
-    additionalItem = additionalItemDbDescription(container.additionalItem)
+    additionalItem = additionalItemDbDescription(container.additionalItem),
+    null
 )
 
 private fun mapAdditionalItem(additionalItem: AdditionalItem) =
