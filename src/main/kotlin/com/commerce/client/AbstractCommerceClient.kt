@@ -23,36 +23,37 @@ abstract class AbstractCommerceClient<Request: Any, Response: Any>: CommerceClie
     @Value("\${commerce.client.request.delay.between}")
     lateinit var requestDelay: String
 
+    lateinit var stub: CommerceBlockingStub
+
     @PostConstruct
     fun startClient() {
         val channel = ManagedChannelBuilder.forAddress(serverHost, serverPort.toInt())
             .usePlaintext()
             .build()
-        val stub = CommerceGrpc.newBlockingStub(channel)
+        stub = CommerceGrpc.newBlockingStub(channel)
 
         var counter = requestCount.toInt()
         while (counter > 0) {
             counter--
             try {
-                sendRequest(stub)
+                sendRequest()
             } catch (e: Exception) {
                 logger.error("Exception while sending request: {}", e.message)
             }
         }
     }
 
-    private fun sendRequest(stub: CommerceBlockingStub) {
+    private fun sendRequest() {
         Thread.sleep(requestDelay.toLong())
 
         val request = generateRequest()
         logger.info("Send request {}", addIndentation(request))
-        val response = getResponse(stub, request)
+        val response = getResponse(request)
         logger.info("Receive response {}", addIndentation(response))
     }
 
     abstract fun generateRequest(): Request
 
-    abstract fun getResponse(stub: CommerceBlockingStub,
-                             request: Request): Response
+    abstract fun getResponse(request: Request): Response
 
 }
