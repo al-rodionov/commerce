@@ -4,7 +4,7 @@ import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionRequest
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 
@@ -13,9 +13,12 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles("test", "server")
 class CommerceServerTests {
 
+    @Value("\${commerce.server.port}")
+    lateinit var serverPort: String
+
     @Test
     fun getResponseGrpc() {
-        val channel = ManagedChannelBuilder.forAddress("localhost", 15002)
+        val channel = ManagedChannelBuilder.forAddress("localhost", serverPort.toInt())
             .usePlaintext()
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
