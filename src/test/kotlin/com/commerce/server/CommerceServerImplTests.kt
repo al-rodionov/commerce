@@ -1,9 +1,10 @@
-package com.commerce
+package com.commerce.server
 
 import com.commerce.grpc.CommerceGrpc
 import com.commerce.grpc.TransactionRequest
 import com.commerce.util.DATE_TIME
 import io.grpc.ManagedChannelBuilder
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,8 +27,8 @@ class CommerceServerImplTests {
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
         val response = stub.transaction(generateTransaction())
-        assert(response.finalPrice.compareTo(95.0) == 0)
-        assert(response.points.compareTo(5.01) == 0)
+        Assertions.assertEquals(95.0, response.finalPrice)
+        Assertions.assertEquals(5.01, response.points)
     }
 
     fun generateTransaction(): TransactionRequest {
