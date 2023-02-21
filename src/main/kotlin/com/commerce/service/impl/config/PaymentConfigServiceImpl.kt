@@ -6,14 +6,14 @@ import com.commerce.model.cache.PaymentConfig
 import com.commerce.repo.PaymentMethodRepository
 import com.commerce.service.PaymentConfigService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization
+import org.springframework.context.annotation.DependsOn
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 @Service
 @Profile("server")
-@DependsOnDatabaseInitialization
+@DependsOn("liquibase")
 class PaymentConfigServiceImpl @Autowired constructor(
     repository: PaymentMethodRepository
 ) : PaymentConfigService {

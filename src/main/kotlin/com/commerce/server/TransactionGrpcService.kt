@@ -35,7 +35,9 @@ class TransactionGrpcService @Autowired constructor(
             logger.info("Send response {}", addIndentation(response))
             return response
         } catch (e: ValidationException) {
-            throw StatusException(Status.INVALID_ARGUMENT.withDescription(e.message))
+            val message = e.message
+            logger.error("Error while executing request: {}", message)
+            throw StatusException(Status.INVALID_ARGUMENT.withDescription(message))
         }
     }
 
