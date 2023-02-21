@@ -1,3 +1,3 @@
 package com.commerce
 
-interface CommerceClient<Request, Response>
+interface CommerceClient<Request: Any, Response: Any>
