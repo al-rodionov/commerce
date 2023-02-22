@@ -25,12 +25,11 @@ class PriceCalcServiceTests @Autowired constructor(
 
     @Test
     fun calculatePriceDigits() {
-        val container = TransactionContainerBuilder()
-            .withPrice(333.18)
-            .withPriceModifier(0.33)
-            .build()
         val price = calculator.calculate(
-            container
+            TransactionContainerBuilder()
+                .withPrice(333.18)
+                .withPriceModifier(0.33)
+                .build()
         )
         assertEquals(109.95, price)
     }
