@@ -1,10 +1,12 @@
 package com.commerce.mapper
 
+import com.commerce.grpc.AdditionalItem
+import com.commerce.grpc.BankItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
-import com.commerce.util.DATE_TIME
-import com.commerce.util.generateTransaction
-import com.commerce.util.generateTransactionContainer
+import com.commerce.util.AbstractTransactionBuilder.Companion.DATE_TIME
+import com.commerce.util.TransactionContainerBuilder
+import com.commerce.util.TransactionRequestBuilder
 import com.commerce.util.parseDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,8 +16,42 @@ import org.springframework.boot.test.context.SpringBootTest
 class TransactionMapperTests {
 
     @Test
-    fun grpcToContainer() {
-        val container: TransactionContainer = toContainer(generateTransaction())
+    fun transactionRequestToContainerDefault() {
+        val container: TransactionContainer = toContainer(
+            TransactionRequestBuilder()
+                .withCustomerId(1L)
+                .build()
+        )
+
+        assertEquals(1L, container.customerId)
+        assertEquals(1000.0, container.price)
+        assertEquals(0.95, container.priceModifier)
+        assertEquals(parseDate(DATE_TIME), container.dateTime)
+    }
+
+    @Test
+    fun transactionRequestToContainerAdditional() {
+        val container: TransactionContainer = toContainer(
+            TransactionRequestBuilder()
+                .withAdditionalItem(
+                    AdditionalItem.newBuilder()
+                        .setLast4(1212)
+                        .setCourier("YAMATO")
+                        .setBankItem(
+                            BankItem.newBuilder()
+                                .setBankName("Bank Name 1")
+                                .setAccountNumber("1234567")
+                                .setChequeNumber("7654321")
+                                .build()
+                        )
+                        .build()
+
+
+                )
+                .withCustomerId(1L)
+                .withPrice(100.0)
+                .build()
+        )
 
         assertEquals(1L, container.customerId)
         assertEquals(100.0, container.price)
@@ -34,11 +70,13 @@ class TransactionMapperTests {
 
     @Test
     fun containerToEntity() {
-        val container = generateTransactionContainer(
-            "CASH",
-            0.95,
-            TransactionContainer.AdditionalItem(2345, null, null)
-        )
+        val container =
+            TransactionContainerBuilder()
+                .withAdditionalItem(
+                    TransactionContainer.AdditionalItem(2345, null, null)
+                )
+                .withCustomerId(1L)
+                .build()
         val entity: Transaction = toTranEntity(container)
 
         assertEquals(1L, entity.customerId)
@@ -50,10 +88,14 @@ class TransactionMapperTests {
 
     @Test
     fun AdditionalItemsDbDescription() {
-        val entity = toTranEntity(generateTransactionContainer(
-            "VISA", 0.95,
-            TransactionContainer.AdditionalItem(5252, null, null)
-        ))
+        val container: TransactionContainer =
+            TransactionContainerBuilder()
+                .withAdditionalItem(
+                    TransactionContainer.AdditionalItem(5252, null, null)
+                )
+                .withPaymentMethod("VISA")
+                .build()
+        val entity = toTranEntity(container)
 
         assertEquals("last4=5252", entity.additionalItem)
     }
