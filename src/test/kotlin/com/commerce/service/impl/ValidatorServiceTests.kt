@@ -4,7 +4,7 @@ import com.commerce.CommerceServer
 import com.commerce.exception.ValidationException
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.ValidatorService
-import com.commerce.util.generateTransactionContainer
+import com.commerce.util.TransactionContainerBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,27 +23,39 @@ class ValidatorServiceTests @Autowired constructor(
 
     @Test
     fun validRequest() {
-        validatorService.validate(generateTransactionContainer())
-        validatorService.validate(generateTransactionContainer(
-            "VISA", 0.95,
-            TransactionContainer.AdditionalItem(1111, null, null)
-        ))
+        validatorService.validate(
+            TransactionContainerBuilder().build()
+        )
+
+        validatorService.validate(
+            TransactionContainerBuilder()
+                .withAdditionalItem(TransactionContainer.AdditionalItem(1111, null, null))
+                .withPaymentMethod("VISA")
+                .withPriceModifier(0.95)
+                .build()
+        )
     }
 
     @Test
     fun invalidRequestBasic() {
         assertThrow(
-            generateTransactionContainer("INVALID"),
+            TransactionContainerBuilder()
+                .withPaymentMethod("INVALID")
+                .build(),
             "Invalid payment method"
         )
 
         assertThrow(
-            generateTransactionContainer(0.5),
+            TransactionContainerBuilder()
+                .withPriceModifier(0.5)
+                .build(),
             "Price modifier not in the range"
         )
 
         assertThrow(
-            generateTransactionContainer(2.5),
+            TransactionContainerBuilder()
+                .withPriceModifier(2.5)
+                .build(),
             "Price modifier not in the range"
         )
     }
@@ -51,19 +63,30 @@ class ValidatorServiceTests @Autowired constructor(
     @Test
     fun invalidRequestAdditional() {
         assertThrow(
-            generateTransactionContainer("CASH_ON_DELIVERY", 1.0, null),
+            TransactionContainerBuilder()
+                .withPaymentMethod("CASH_ON_DELIVERY")
+                .withPriceModifier(1.0)
+                .build(),
             "Unknown courier"
         )
         assertThrow(
-            generateTransactionContainer("VISA"),
+            TransactionContainerBuilder()
+                .withPaymentMethod("VISA")
+                .build(),
             "Require last 4 card digits in additional items"
         )
         assertThrow(
-            generateTransactionContainer("BANK_TRANSFER", 1.0, null),
+            TransactionContainerBuilder()
+                .withPaymentMethod("BANK_TRANSFER")
+                .withPriceModifier(1.0)
+                .build(),
             "Require bank name and account number in additional items"
         )
         assertThrow(
-            generateTransactionContainer("CHEQUE", 1.0, null),
+            TransactionContainerBuilder()
+                .withPaymentMethod("CHEQUE")
+                .withPriceModifier(1.0)
+                .build(),
             "Require bank name and cheque number in additional items"
         )
     }

@@ -1,4 +1,4 @@
-package com.commerce.service.impl.config
+package com.commerce.service.impl
 
 import com.commerce.exception.ValidationException
 import com.commerce.mapper.toPaymentConfig

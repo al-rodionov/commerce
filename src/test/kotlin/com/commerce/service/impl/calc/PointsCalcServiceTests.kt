@@ -1,11 +1,8 @@
 package com.commerce.service.impl.calc
 
 import com.commerce.CommerceServer
-import com.commerce.model.container.TransactionContainer
 import com.commerce.service.PointsCalcService
-import com.commerce.util.DATE_TIME
-import com.commerce.util.generateTransactionContainer
-import com.commerce.util.parseDate
+import com.commerce.util.TransactionContainerBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,22 +20,17 @@ class PointsCalcServiceTests @Autowired constructor(
 
     @Test
     fun calculatePoints() {
-        val price = calculator.calculate(generateTransactionContainer())
+        val price = calculator.calculate(TransactionContainerBuilder().build())
         assertEquals(50.01, price)
     }
 
     @Test
     fun calculatePointsDigits() {
         val price = calculator.calculate(
-            TransactionContainer(
-                customerId = 1L,
-                price = 333.33,
-                priceModifier = 0.9,
-                paymentMethod = "CASH",
-                dateTime = parseDate(DATE_TIME),
-                additionalItem = null,
-                0.0, 0.0
-            )
+            TransactionContainerBuilder()
+                .withPrice(333.33)
+                .withPriceModifier(0.9)
+                .build()
         )
         assertEquals(16.67, price)
     }
