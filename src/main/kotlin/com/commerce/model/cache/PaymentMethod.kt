@@ -1,6 +1,6 @@
 package com.commerce.model.cache
 
-class PaymentConfig (
+class PaymentMethod (
     val name: String,
     val priceModifierMin: Double,
     val priceModifierMax: Double,

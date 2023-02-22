@@ -4,7 +4,7 @@ import com.commerce.grpc.AdditionalItem
 import com.commerce.grpc.BankItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
-import com.commerce.util.AbstractTransactionBuilder.Companion.DATE_TIME
+import com.commerce.util.DATE_TIME
 import com.commerce.util.TransactionContainerBuilder
 import com.commerce.util.TransactionRequestBuilder
 import com.commerce.util.parseDate
@@ -77,7 +77,7 @@ class TransactionMapperTests {
                 )
                 .withCustomerId(1L)
                 .build()
-        val entity: Transaction = toTranEntity(container)
+        val entity: Transaction = toTransactionEntity(container)
 
         assertEquals(1L, entity.customerId)
         assertEquals(1000.00, entity.price)
@@ -87,7 +87,17 @@ class TransactionMapperTests {
     }
 
     @Test
-    fun AdditionalItemsDbDescription() {
+    fun additionalItemsDbDescriptionLast4Empty() {
+        val container: TransactionContainer =
+            TransactionContainerBuilder()
+                .build()
+        val entity = toTransactionEntity(container)
+
+        assertEquals("", entity.additionalItem)
+    }
+
+    @Test
+    fun additionalItemsDbDescriptionLast4() {
         val container: TransactionContainer =
             TransactionContainerBuilder()
                 .withAdditionalItem(
@@ -95,7 +105,7 @@ class TransactionMapperTests {
                 )
                 .withPaymentMethod("VISA")
                 .build()
-        val entity = toTranEntity(container)
+        val entity = toTransactionEntity(container)
 
         assertEquals("last4=5252", entity.additionalItem)
     }

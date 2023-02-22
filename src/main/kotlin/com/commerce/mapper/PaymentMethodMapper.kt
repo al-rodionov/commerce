@@ -1,9 +1,8 @@
 package com.commerce.mapper
 
-import com.commerce.model.cache.PaymentConfig
 import com.commerce.model.entity.PaymentMethod
 
-fun toPaymentConfig(paymentMethod: PaymentMethod) = PaymentConfig (
+fun toCache(paymentMethod: PaymentMethod) = com.commerce.model.cache.PaymentMethod(
     name = paymentMethod.name,
     priceModifierMin = paymentMethod.priceModifierMin,
     priceModifierMax = paymentMethod.priceModifierMax,

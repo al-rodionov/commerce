@@ -21,13 +21,19 @@ class StoreServiceTests @Autowired constructor(
 ){
 
     @Test
-    fun store() {
-//    todo get id and contains in list
-        storeService.store(TransactionContainerBuilder().build())
-        storeService.store(TransactionContainerBuilder().build())
-        storeService.store(TransactionContainerBuilder().build())
+    fun massStore() {
+        val random = (5..15).random()
+        var counter = random
+        while (counter > 0) {
+            counter--
+            store()
+        }
 
-        assertEquals(3, transactionRepository.findAll().size)
-        assertEquals(3, paymentRepository.findAll().size)
+        assertEquals(random, transactionRepository.findAll().size)
+        assertEquals(random, paymentRepository.findAll().size)
+    }
+
+    private fun store() {
+        storeService.store(TransactionContainerBuilder().build())
     }
 }

@@ -1,11 +1,11 @@
 package com.commerce.validator
 
 import com.commerce.exception.ValidationException
-import com.commerce.model.cache.PaymentConfig
+import com.commerce.model.cache.PaymentMethod
 import com.commerce.model.container.TransactionContainer
 
 
-fun validatePriceModifier(config: PaymentConfig,
+fun validatePriceModifier(config: PaymentMethod,
                           priceModifier: Double) {
     val configMin = config.priceModifierMin
     val configMax = config.priceModifierMax
@@ -24,11 +24,15 @@ fun validateAdditional(paymentMethod: String,
             }
         "VISA",
         "MASTERCARD",
-        "APEX",
-        "JCB" ->
+        "AMEX",
+        "JCB" -> {
             if (additionalItem?.last4 == null) {
                 throw ValidationException("Require last 4 card digits in additional items")
             }
+            if (additionalItem.last4 < 1000 || additionalItem.last4 >= 10000) {
+                throw ValidationException("Invalid count of card digits: require last 4 digits")
+            }
+        }
         "BANK_TRANSFER" ->
             if (additionalItem?.bankItem?.accountNumber == null) {
                 throw ValidationException("Require bank name and account number in additional items")
