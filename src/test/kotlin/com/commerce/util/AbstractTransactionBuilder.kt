@@ -3,6 +3,9 @@ package com.commerce.util
 import kotlin.random.Random
 
 
+const val DEFAULT_PAYMENT_METHOD = "CASH"
+const val DATE_TIME: String = "2022-09-01T00:00:00Z";
+
 abstract class AbstractTransactionBuilder<T> {
     protected var customerId: Long = Random.nextLong(1000L)
     protected var price: Double = 1000.0
@@ -29,10 +32,5 @@ abstract class AbstractTransactionBuilder<T> {
     fun withPaymentMethod(paymentMethod: String): AbstractTransactionBuilder<T> {
         this.paymentMethod = paymentMethod
         return this
-    }
-
-    companion object {
-        private const val DEFAULT_PAYMENT_METHOD = "CASH"
-        const val DATE_TIME: String = "2022-09-01T00:00:00Z";
     }
 }

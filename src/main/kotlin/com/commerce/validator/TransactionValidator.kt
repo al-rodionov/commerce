@@ -1,11 +1,11 @@
 package com.commerce.validator
 
 import com.commerce.exception.ValidationException
-import com.commerce.model.cache.PaymentConfig
+import com.commerce.model.cache.PaymentMethod
 import com.commerce.model.container.TransactionContainer
 
 
-fun validatePriceModifier(config: PaymentConfig,
+fun validatePriceModifier(config: PaymentMethod,
                           priceModifier: Double) {
     val configMin = config.priceModifierMin
     val configMax = config.priceModifierMax

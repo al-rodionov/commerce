@@ -1,7 +1,7 @@
 package com.commerce.service.impl
 
 import com.commerce.mapper.toPaymentEntity
-import com.commerce.mapper.toTranEntity
+import com.commerce.mapper.toTransactionEntity
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.container.TransactionReportContainer
 import com.commerce.model.entity.Payment
@@ -22,7 +22,7 @@ class StoreServiceImpl @Autowired constructor(
 
     @Transactional
     override fun store(container: TransactionContainer) {
-        val tranEntity = transactionRepository.save(toTranEntity(container))
+        val tranEntity = transactionRepository.save(toTransactionEntity(container))
 
         val paymentEntity = toPaymentEntity(container)
         paymentEntity.transaction = tranEntity

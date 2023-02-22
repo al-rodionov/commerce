@@ -1,10 +1,10 @@
 package com.commerce.service.impl
 
 import com.commerce.exception.ValidationException
-import com.commerce.mapper.toPaymentConfig
-import com.commerce.model.cache.PaymentConfig
+import com.commerce.mapper.toCache
+import com.commerce.model.cache.PaymentMethod
 import com.commerce.repo.PaymentMethodRepository
-import com.commerce.service.PaymentConfigService
+import com.commerce.service.PaymentMethodService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.DependsOn
 import org.springframework.context.annotation.Profile
@@ -14,16 +14,16 @@ import java.util.stream.Collectors
 @Service
 @Profile("server")
 @DependsOn("liquibase")
-class PaymentConfigServiceImpl @Autowired constructor(
+class PaymentMethodServiceImpl @Autowired constructor(
     repository: PaymentMethodRepository
-) : PaymentConfigService {
+) : PaymentMethodService {
 
-    val configs: List<PaymentConfig> = repository.findAll().stream()
-        .map { toPaymentConfig(it) }
+    val configs: List<PaymentMethod> = repository.findAll().stream()
+        .map { toCache(it) }
         .collect(Collectors.toList())
 
-    override fun getPaymentConfig(paymentMethod: String): PaymentConfig {
-        return configs.find { it.name.equals(paymentMethod) }
+    override fun getPaymentMethod(name: String): PaymentMethod {
+        return configs.find { it.name.equals(name) }
             ?: throw ValidationException("Invalid payment method")
     }
 }

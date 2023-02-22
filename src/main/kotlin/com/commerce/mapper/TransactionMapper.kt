@@ -17,7 +17,7 @@ fun toContainer(request: TransactionRequest) = TransactionContainer(
     0.0, 0.0
 )
 
-fun toTranEntity(container: TransactionContainer) = Transaction(
+fun toTransactionEntity(container: TransactionContainer) = Transaction(
     id = null,
     customerId = container.customerId,
     price = container.price,
