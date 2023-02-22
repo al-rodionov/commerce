@@ -1,10 +1,8 @@
-package com.commerce.util
+package com.commerce.util.builder
 
+import com.commerce.util.DEFAULT_PAYMENT_METHOD
 import kotlin.random.Random
 
-
-const val DEFAULT_PAYMENT_METHOD = "CASH"
-const val DATE_TIME: String = "2022-09-01T00:00:00Z";
 
 abstract class AbstractTransactionBuilder<T> {
     protected var customerId: Long = Random.nextLong(1000L)

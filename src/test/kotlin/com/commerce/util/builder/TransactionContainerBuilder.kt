@@ -1,6 +1,8 @@
-package com.commerce.util
+package com.commerce.util.builder
 
 import com.commerce.model.container.TransactionContainer
+import com.commerce.util.DATE_TIME
+import com.commerce.util.parseDate
 import java.time.LocalDateTime
 
 
@@ -21,7 +23,7 @@ class TransactionContainerBuilder: AbstractTransactionBuilder<TransactionContain
         return this
     }
 
-    fun withSales(sales: Double) :TransactionContainerBuilder {
+    fun withSales(sales: Double) : TransactionContainerBuilder {
         this.sales = sales
         return this
     }

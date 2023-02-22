@@ -5,8 +5,8 @@ import com.commerce.grpc.BankItem
 import com.commerce.model.container.TransactionContainer
 import com.commerce.model.entity.Transaction
 import com.commerce.util.DATE_TIME
-import com.commerce.util.TransactionContainerBuilder
-import com.commerce.util.TransactionRequestBuilder
+import com.commerce.util.builder.TransactionContainerBuilder
+import com.commerce.util.builder.TransactionRequestBuilder
 import com.commerce.util.parseDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

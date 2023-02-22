@@ -1,7 +1,8 @@
-package com.commerce.util
+package com.commerce.util.builder
 
 import com.commerce.grpc.AdditionalItem
 import com.commerce.grpc.TransactionRequest
+import com.commerce.util.DATE_TIME
 
 
 class TransactionRequestBuilder: AbstractTransactionBuilder<TransactionRequest>() {

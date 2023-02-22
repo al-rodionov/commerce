@@ -1,7 +1,7 @@
 package com.commerce.server
 
 import com.commerce.grpc.CommerceGrpc
-import com.commerce.util.TransactionRequestBuilder
+import com.commerce.util.builder.TransactionRequestBuilder
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

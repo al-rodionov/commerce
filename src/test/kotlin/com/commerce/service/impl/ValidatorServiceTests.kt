@@ -4,7 +4,7 @@ import com.commerce.CommerceServer
 import com.commerce.exception.ValidationException
 import com.commerce.model.container.TransactionContainer
 import com.commerce.service.ValidatorService
-import com.commerce.util.TransactionContainerBuilder
+import com.commerce.util.builder.TransactionContainerBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

@@ -3,7 +3,7 @@ package com.commerce.service.impl
 import com.commerce.repo.PaymentRepository
 import com.commerce.repo.TransactionRepository
 import com.commerce.service.StoreService
-import com.commerce.util.TransactionContainerBuilder
+import com.commerce.util.builder.TransactionContainerBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
