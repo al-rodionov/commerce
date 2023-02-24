@@ -16,10 +16,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-commerce:
-  server:
-    available:
-      time: 600
 ---
 spring:
   config:
