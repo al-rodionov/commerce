@@ -9,14 +9,14 @@ import java.time.LocalDateTime
 import kotlin.random.Random
 
 
-val PAYMENT_METHODS = listOf(
+private val PAYMENT_METHODS = listOf(
     "CASH", "CASH_ON_DELIVERY", "VISA", "MASTERCARD", "AMEX", "JCB",
     "LINE_PAY", "PAYPAY", "POINTS", "GRAB_PAY", "BANK_TRANSFER", "CHEQUE"
 )
-val PAYMENT_METHOD_MAX_INDEX = PAYMENT_METHODS.size - 1
+private val PAYMENT_METHOD_MAX_INDEX = PAYMENT_METHODS.size - 1
 
-val emptyAdditionalItem = AdditionalItem.newBuilder().build()
-val fullAdditionalItem = AdditionalItem.newBuilder()
+private val emptyAdditionalItem = AdditionalItem.newBuilder().build()
+private val fullAdditionalItem = AdditionalItem.newBuilder()
     .setLast4(1515)
     .setCourier("YAMATO")
     .setBankItem(
