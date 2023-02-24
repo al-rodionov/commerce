@@ -1,7 +1,7 @@
 package com.commerce.server
 
 import com.commerce.grpc.CommerceGrpc
-import com.commerce.util.TransactionRequestBuilder
+import com.commerce.util.builder.TestTransactionRequestBuilder
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ class CommerceServerImplTests {
             .build()
         val stub = CommerceGrpc.newBlockingStub(channel)
         val response = stub.transaction(
-            TransactionRequestBuilder()
+            TestTransactionRequestBuilder()
                 .withPrice(100.0)
                 .build()
         )
