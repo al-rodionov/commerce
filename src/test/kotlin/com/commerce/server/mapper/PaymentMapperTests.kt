@@ -22,7 +22,7 @@ class PaymentMapperTests {
             parseDate(DATE_TIME),
             null
         )
-        val reportItem = toReportItem(payment)
+        val reportItem = toGrpcPayment(payment)
 
         assertEquals(1328.97, reportItem.sales)
         assertEquals(21.14, reportItem.points)

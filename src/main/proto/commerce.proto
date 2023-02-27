@@ -6,7 +6,7 @@ option java_multiple_files = true;
 
 service Commerce {
   rpc Transaction (TransactionRequest) returns (TransactionResponse) {}
-  rpc TransactionReport (TransactionReportRequest) returns (TransactionReportResponse) {}
+  rpc PaymentsReport (PaymentsReportRequest) returns (PaymentsReportResponse) {}
 }
 
 message TransactionRequest {
@@ -35,16 +35,16 @@ message TransactionResponse {
   double points = 2;
 }
 
-message TransactionReportRequest {
+message PaymentsReportRequest {
   string startDateTime = 1;
   string endDateTime = 2;
 }
 
-message TransactionReportResponse {
-  repeated TransactionReportItem sales = 1;
+message PaymentsReportResponse {
+  repeated Payment payments = 1;
 }
 
-message TransactionReportItem {
+message Payment {
   string dateTime = 1;
   double sales = 2;
   double points = 3;
