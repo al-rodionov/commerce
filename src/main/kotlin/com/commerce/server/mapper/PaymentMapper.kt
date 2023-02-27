@@ -1,6 +1,5 @@
 package com.commerce.server.mapper
 
-import com.commerce.grpc.transactionReportItem
 import com.commerce.server.model.container.TransactionContainer
 import com.commerce.server.model.entity.Payment
 import com.commerce.util.formatDate
@@ -14,7 +13,7 @@ fun toPaymentEntity(container: TransactionContainer) = Payment(
     null
 )
 
-fun toReportItem(payment: Payment) = transactionReportItem {
+fun toGrpcPayment(payment: Payment) = com.commerce.grpc.payment {
     sales = payment.sales
     points = payment.points
     dateTime = formatDate(payment.dateTime)

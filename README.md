@@ -3,12 +3,12 @@
 ## About
 
 An emulator of e-commerce platform that can process transaction requests 
-with various payment methods and calculate sales.  
+with various payment methods, calculate sales and create payments.  
 The runnable example consists of 4 docker containers.
 
 ### Server
 
-The gRPC server, can receive transaction/report requests:
+The gRPC server, can receive transaction request, payments report request.
 
 **Transaction workflow:**
 - validate
@@ -16,7 +16,7 @@ The gRPC server, can receive transaction/report requests:
 - store transaction and payment
 - return sales and points
 
-**Transaction report workflow:**
+**Payments report workflow:**
 - return list of payments
 
 ### Transaction client
@@ -26,7 +26,7 @@ process success/failure response
 
 ### Report client
 
-Generate transaction report requests (by default, request payments for the last 30 seconds), 
+Generate payments report requests (by default, request payments for the last 30 seconds), 
 send them to the server and process a successful response
 
 ### Database

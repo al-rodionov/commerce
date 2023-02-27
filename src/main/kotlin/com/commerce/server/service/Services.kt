@@ -1,8 +1,8 @@
 package com.commerce.server.service
 
 import com.commerce.server.model.cache.PaymentMethod
+import com.commerce.server.model.container.PaymentsReportContainer
 import com.commerce.server.model.container.TransactionContainer
-import com.commerce.server.model.container.TransactionReportContainer
 import com.commerce.server.model.entity.Payment
 
 interface PaymentMethodService {
@@ -24,5 +24,5 @@ interface PriceCalcService : Calculator
 interface StoreService {
     fun store(container: TransactionContainer)
 
-    fun findReports(container: TransactionReportContainer): List<Payment>
+    fun findReports(container: PaymentsReportContainer): List<Payment>
 }

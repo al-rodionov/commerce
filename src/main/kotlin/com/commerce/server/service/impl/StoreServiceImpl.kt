@@ -2,8 +2,8 @@ package com.commerce.server.service.impl
 
 import com.commerce.server.mapper.toPaymentEntity
 import com.commerce.server.mapper.toTransactionEntity
+import com.commerce.server.model.container.PaymentsReportContainer
 import com.commerce.server.model.container.TransactionContainer
-import com.commerce.server.model.container.TransactionReportContainer
 import com.commerce.server.model.entity.Payment
 import com.commerce.server.repo.PaymentRepository
 import com.commerce.server.repo.TransactionRepository
@@ -30,7 +30,7 @@ class StoreServiceImpl @Autowired constructor(
         paymentRepository.save(paymentEntity)
     }
 
-    override fun findReports(container: TransactionReportContainer): List<Payment> {
+    override fun findReports(container: PaymentsReportContainer): List<Payment> {
         return paymentRepository.findAllByDateTimeBetween(
             container.startDateTime,
             container.endDateTime

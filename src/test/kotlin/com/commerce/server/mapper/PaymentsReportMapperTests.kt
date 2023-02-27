@@ -1,6 +1,6 @@
 package com.commerce.server.mapper
 
-import com.commerce.grpc.TransactionReportRequest
+import com.commerce.grpc.PaymentsReportRequest
 import com.commerce.util.DATE_TIME
 import com.commerce.util.formatDate
 import com.commerce.util.parseDate
@@ -11,12 +11,12 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit.SECONDS
 
 @SpringBootTest
-class TransactionReportMapperTests {
+class PaymentsReportMapperTests {
 
     @Test
     fun toContainer() {
         val endDateTime = LocalDateTime.now()
-        val reportRequest = TransactionReportRequest.newBuilder()
+        val reportRequest = PaymentsReportRequest.newBuilder()
             .setStartDateTime(DATE_TIME)
             .setEndDateTime(formatDate(endDateTime))
             .build()

@@ -3,7 +3,7 @@ package com.commerce.server.model.container
 import java.time.LocalDateTime
 
 
-class TransactionReportContainer(
+class PaymentsReportContainer(
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
 )

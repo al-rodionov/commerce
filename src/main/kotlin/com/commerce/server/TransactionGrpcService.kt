@@ -3,7 +3,7 @@ package com.commerce.server
 import com.commerce.grpc.*
 import com.commerce.server.exception.ValidationException
 import com.commerce.server.mapper.toContainer
-import com.commerce.server.mapper.toReportItem
+import com.commerce.server.mapper.toGrpcPayment
 import com.commerce.server.model.container.TransactionContainer
 import com.commerce.server.service.*
 import com.commerce.util.addIndentation
@@ -67,17 +67,17 @@ class TransactionGrpcService @Autowired constructor(
         points = container.points
     }
 
-    override suspend fun transactionReport(request: TransactionReportRequest): TransactionReportResponse {
+    override suspend fun paymentsReport(request: PaymentsReportRequest): PaymentsReportResponse {
         logger.info("Receive request {}", addIndentation(request))
 
         val container = toContainer(request)
-        val payments: List<TransactionReportItem>  =
+        val payments: List<Payment>  =
             storeService.findReports(container).stream()
-                .map { toReportItem(it) }
+                .map { toGrpcPayment(it) }
                 .collect(Collectors.toList())
 
-        val response = TransactionReportResponse.newBuilder()
-            .addAllSales(payments)
+        val response = PaymentsReportResponse.newBuilder()
+            .addAllPayments(payments)
             .build()
 
         logger.info("Send response {}", addIndentation(response))
